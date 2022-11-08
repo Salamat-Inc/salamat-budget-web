@@ -172,13 +172,16 @@ export const SalamatHeader = (props: any) => {
               <div className="mt-6">
                 <a
                   href="#"
-                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                  className="font-montserrat flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                 >
                   Sign up
                 </a>
                 <p className="mt-6 text-center text-base font-medium text-gray-500">
                   Existing customer?{' '}
-                  <a href="#" className="text-indigo-600 hover:text-indigo-500">
+                  <a
+                    href="#"
+                    className="text-indigo-600 hover:text-indigo-500 font-montserrat"
+                  >
                     Sign in
                   </a>
                 </p>

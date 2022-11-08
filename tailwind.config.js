@@ -27,6 +27,10 @@ module.exports = {
         'salamat-orange-light': '#F2CA8D',
         'salamat-orange-dark': '#E5AF5C',
       },
+      fontFamily: {
+        montserrat: ['Montserrat', 'Arial', 'Helvetica', 'sans-serif'],
+        sans: ['Montserrat', 'Arial', 'Helvetica', 'sans-serif'],
+      },
     },
   },
   plugins: [],
