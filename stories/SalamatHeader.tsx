@@ -83,7 +83,7 @@ const resources = [
 ];
 export const SalamatHeader = (props: any) => {
   return (
-    <Popover className="relative bg-white">
+    <Popover className="relative bg-salamat-black-less">
       <div className="flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start md:space-x-10">
         <div className="flex justify-start lg:w-0 lg:flex-1">
           <a href="#">
