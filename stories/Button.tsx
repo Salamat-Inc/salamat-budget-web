@@ -1,11 +1,7 @@
 import React from 'react';
-import './button.css';
+import { classNames } from '../utils/classNames';
 
 interface ButtonProps {
-  /**
-   * Is this the principal call to action on the page?
-   */
-  primary?: boolean;
   /**
    * What background color to use
    */
@@ -13,36 +9,42 @@ interface ButtonProps {
   /**
    * How large should the button be?
    */
-  size?: 'small' | 'medium' | 'large';
+  size?: 'extra-small' | 'small' | 'medium' | 'large' | 'extra-large';
   /**
    * Button contents
    */
   label: string;
+  /**
+   * Additional Tailwind css classes to add
+   */
+  twClasses?: string;
   /**
    * Optional click handler
    */
   onClick?: () => void;
 }
 
-/**
- * Primary UI component for user interaction
- */
+const buttonSizes: { [key: string]: string } = {
+  'extra-small': 'rounded px-2.5 py-1.5 text-xs',
+  small: 'rounded-md px-3 py-2 text-sm leading-4',
+  medium: 'rounded-md px-4 py-2 text-sm',
+  large: 'rounded-md px-4 py-2 text-base',
+  'extra-large': 'rounded-md px-6 py-3 text-base',
+};
+
 export const Button = ({
-  primary = false,
   size = 'medium',
   backgroundColor,
   label,
+  twClasses = '',
   ...props
 }: ButtonProps) => {
-  const mode = primary
-    ? 'storybook-button--primary'
-    : 'storybook-button--secondary';
+  const baseStyles =
+    'inline-flex items-center border border-transparent font-medium focus:outline-none focus:ring-salamat-black focus:ring-offset-2 text-salamat-black shadow-sm bg-salamat-yellow';
   return (
     <button
       type="button"
-      className={['storybook-button', `storybook-button--${size}`, mode].join(
-        ' '
-      )}
+      className={classNames(baseStyles, buttonSizes[size], twClasses)}
       style={{ backgroundColor }}
       {...props}
     >
