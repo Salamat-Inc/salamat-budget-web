@@ -12,7 +12,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { TextLink } from './TextLink';
-import { Button } from './Button';
+import { Avatar } from './Avatar';
 
 const solutions = [
   {
@@ -118,6 +118,13 @@ export const SalamatHeader = (props: any) => {
           >
             Settings
           </TextLink>
+
+          <Avatar
+            size="small"
+            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            alt=""
+            twClasses="ml-4"
+          />
         </div>
       </div>
 
