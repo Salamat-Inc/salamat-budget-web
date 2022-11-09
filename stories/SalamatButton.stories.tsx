@@ -8,6 +8,7 @@ export default {
   component: SalamatButton,
   argTypes: {
     backgroundColor: { control: 'color' },
+    twClasses: { control: { type: null } },
   },
 } as ComponentMeta<typeof SalamatButton>;
 
@@ -17,10 +18,10 @@ const Template: ComponentStory<typeof SalamatButton> = (args) => (
 
 export const Primary = Template.bind({});
 Primary.args = {
-  style: 'primary',
   size: 'medium',
   label: 'Button',
+  twClasses: '',
 };
 
-export const LoggedOut = Template.bind({});
+// export const LoggedOut = Template.bind({});
 // LoggedOut.args = {};

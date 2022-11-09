@@ -1,11 +1,7 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { classNames } from '../utils/classNames';
 
 interface SalamatButtonProps {
-  /**
-   * The type of button style
-   */
-  style?: 'primary' | 'secondary';
   /**
    * What background color to use
    */
@@ -18,6 +14,10 @@ interface SalamatButtonProps {
    * Button contents
    */
   label: string;
+  /**
+   * Additional Tailwind css classes to add
+   */
+  twClasses?: string;
   /**
    * Optional click handler
    */
@@ -32,24 +32,19 @@ const buttonSizes: { [key: string]: string } = {
   'extra-large': 'rounded-md px-6 py-3 text-base',
 };
 
-const buttonStyles: { [key: string]: string } = {
-  primary: 'bg-indigo-600 text-white shadow-sm hover:bg-indigo-700',
-  secondary: 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200',
-};
-
 export const SalamatButton = ({
-  style = 'primary',
   size = 'medium',
   backgroundColor,
   label,
+  twClasses = '',
   ...props
 }: SalamatButtonProps) => {
   const baseStyles =
-    'inline-flex items-center border border-transparent font-medium focus:outline-none focus: ring-indigo-500 focus:ring-offset-2';
+    'inline-flex items-center border border-transparent font-medium focus:outline-none focus:ring-salamat-black focus:ring-offset-2 text-salamat-black shadow-sm bg-salamat-yellow';
   return (
     <button
       type="button"
-      className={classNames(baseStyles, buttonSizes[size], buttonStyles[style])}
+      className={classNames(baseStyles, buttonSizes[size], twClasses)}
       style={{ backgroundColor }}
       {...props}
     >
