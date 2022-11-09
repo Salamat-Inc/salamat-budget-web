@@ -11,6 +11,8 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import { TextLink } from './TextLink';
+import { Button } from './Button';
 
 const solutions = [
   {
@@ -79,55 +81,22 @@ const resources = [
   },
 ];
 
-const SButtons = () => {
-  return (
-    <>
-      <button
-        type="button"
-        className="inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-      >
-        Button text
-      </button>
-      <button
-        type="button"
-        className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-      >
-        Button text
-      </button>
-      <button
-        type="button"
-        className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-      >
-        Button text
-      </button>
-      <button
-        type="button"
-        className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-      >
-        Button text
-      </button>
-      <button
-        type="button"
-        className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-      >
-        Button text
-      </button>
-    </>
-  );
-};
-
 export const SalamatHeader = (props: any) => {
   return (
     <Popover className="relative bg-salamat-black-less">
       <div className="flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start md:space-x-10">
         <div className="flex justify-start lg:w-0 lg:flex-1">
-          <a href="#">
+          <a
+            href="#"
+            className="text-salamat-orange-dark font-bold font-montserrat text-2xl"
+          >
             <span className="sr-only">Your Company</span>
-            <img
+            {/* <img
               className="h-8 w-auto sm:h-10"
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
               alt=""
-            />
+            /> */}
+            Pomelo
           </a>
         </div>
         <div className="-my-2 -mr-2 md:hidden">
@@ -137,18 +106,18 @@ export const SalamatHeader = (props: any) => {
           </Popover.Button>
         </div>
         <div className="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
-          <a
-            href="#"
-            className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+          <TextLink
+            url="#"
+            twClasses="whitespace-nowrap text-base font-medium text-salamat-white hover:text-gray-900"
           >
-            Sign in
-          </a>
-          <a
-            href="#"
-            className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+            Team
+          </TextLink>
+          <TextLink
+            url="#"
+            twClasses="ml-4 whitespace-nowrap text-base font-medium text-salamat-white hover:text-gray-900"
           >
-            Sign up
-          </a>
+            Settings
+          </TextLink>
         </div>
       </div>
 
