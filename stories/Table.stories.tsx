@@ -12,18 +12,13 @@ export default {
   },
 } as ComponentMeta<typeof Table>;
 
-const Template: ComponentStory<typeof Table> = (args) => (
-  <div className="px-8">
-    <Table {...args} />
-  </div>
-);
+const Template: ComponentStory<typeof Table> = (args) => <Table {...args} />;
 
 export const LoggedIn = Template.bind({});
-// LoggedIn.args = {
-//   user: {
-//     name: 'Jane Doe',
-//   },
-// };
-
-export const LoggedOut = Template.bind({});
-// LoggedOut.args = {};
+LoggedIn.decorators = [
+  (Story) => (
+    <div className="p-8 flex justify-center align-middle">
+      <Story />
+    </div>
+  ),
+];
