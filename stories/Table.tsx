@@ -15,31 +15,17 @@ const columnTitles = [
   },
 ];
 
-const TableHead = (columnTitle) => (
-  <thead>
-    <tr>
-      <th
-        scope="col"
-        colSpan={5}
-        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:pl-8"
-      >
-        {columnTitle.name}
-      </th>
-      {/* <th
-        scope="col"
-        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:pl-8"
-      >
-        {columnTitle.amount}
-      </th> */}
-    </tr>
-  </thead>
-);
-
 export const Table = () => {
   return (
     // Container for the table
-    <div className="min-w-full p-4 flex flex-row bg-salamat-lesser-white">
-      <div className="w-[40%] shadow-[7px_0_14px_-7px_rgba(54,61,77,0.7)] p-4">
+    <div className="min-w-full flex flex-row bg-salamat-lesser-white">
+      <div className="w-[40%] shadow-[7px_0_14px_-7px_rgba(54,61,77,0.4)] p-4">
+        {/* All categor"ies dropdown */}
+        <div className="flex flex-row justify-between items-center h-16">
+          <div className="font-bold">All Categories</div>
+          <div>Last Update: 01/01/22</div>
+        </div>
+
         {/* Header of the table */}
         <div className="flex justify-between bg-salamat-blue-dark text-salamat-white rounded-md px-2.5 py-1.5">
           <div className="w-[40%]">Items</div>
@@ -80,7 +66,7 @@ export const Table = () => {
 
         {/* sub category example */}
         <div className="flex justify-between bg-salamat-orange-light text-salamat-black font-bold rounded-md px-2.5 py-1.5 mt-1">
-          <div className="w-[50%]">Principle Cast</div>
+          <div className="w-[50%]">Principal Cast</div>
           <div className="w-[50%] text-right">$20,500.50</div>
         </div>
 
@@ -105,6 +91,12 @@ export const Table = () => {
       </div>
 
       <div className="w-[30%] p-4">
+        {/* All categor"ies dropdown */}
+        <div className="flex flex-row justify-between h-16 items-center">
+          <div>left</div>
+          <div>Week 1</div>
+          <div>right</div>
+        </div>
         {/* Header of the table */}
         <div className="flex justify-between bg-salamat-blue-dark text-salamat-white rounded-md px-2.5 py-1.5">
           <div className="w-[40%]">Items</div>
@@ -142,6 +134,9 @@ export const Table = () => {
           <div className="w-[50%]">Directors</div>
           <div className="w-[50%] text-right">$20,500.50</div>
         </div>
+        <div className="flex flex-row justify-end bg-salamat-orange-light text-salamat-black font-bold rounded-md px-2.5 py-1.5 mt-1">
+          <div className="text-right">$20,500.50</div>
+        </div>
         <div className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1">
           <div className="w-[40%] text-salamat-black">George Lucas</div>
           <div className="w-[10%] text-salamat-black text-right">Days</div>
@@ -162,7 +157,8 @@ export const Table = () => {
         </div>
       </div>
 
-      <div className="w-[30%] shadow-[-7px_0_14px_-7px_rgba(54,61,77,0.7)] p-4">
+      <div className="w-[30%] shadow-[-7px_0_14px_-7px_rgba(54,61,77,0.4)] p-4">
+        <div className="flex flex-row justify-between items-center h-16"></div>
         {/* Header of the table */}
         <div className="flex justify-between bg-salamat-blue-dark text-salamat-white rounded-md px-2.5 py-1.5">
           <div className="w-[40%]">Items</div>

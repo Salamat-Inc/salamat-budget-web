@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import {
   ArrowPathIcon,
   Bars3Icon,
@@ -100,12 +101,12 @@ export const SalamatHeader = (props: any) => {
         <div className="divide-y-2 divide-salamat-orange rounded-lg bg-salamat-black-less shadow-lg ring-1 ring-salamat-yellow ring-opacity-5">
           <div className="px-5 pt-5 pb-6">
             <div className="flex items-center justify-between">
-              <a
+              <Link
                 href="#"
                 className="text-salamat-orange-dark font-bold font-montserrat text-2xl"
               >
                 Pomelo
-              </a>
+              </Link>
               <div className="-mr-2">
                 <Popover.Button className="inline-flex items-center justify-center rounded-md bg-salamat-black-less p-2 text-salamat-orange-dark hover:text-salamat-orange-light focus:outline-none focus:ring-2 focus:ring-inset focus:ring-salamat-orange-dark">
                   <span className="sr-only">Close menu</span>
@@ -135,20 +136,20 @@ export const SalamatHeader = (props: any) => {
           </div>
           <div className="py-6 px-5">
             <div className="mt-6">
-              <a
+              <Link
                 href="#"
                 className="font-montserrat flex w-full items-center justify-center rounded-md border border-transparent bg-salamat-orange-dark px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-salamat-orange-light"
               >
                 Sign up
-              </a>
+              </Link>
               <p className="mt-6 text-center text-base font-medium text-salamat-orange-dark">
                 Existing customer?{' '}
-                <a
+                <Link
                   href="#"
                   className="text-salamat-orange hover:text-salamat-orange-light font-montserrat"
                 >
                   Sign in
-                </a>
+                </Link>
               </p>
             </div>
           </div>
@@ -161,13 +162,13 @@ export const SalamatHeader = (props: any) => {
     <Popover className="relative bg-salamat-black-less">
       <div className="flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start md:space-x-10">
         <div className="flex justify-start lg:w-0 lg:flex-1">
-          <a
+          <Link
             href="#"
             className="text-salamat-orange-dark font-bold font-montserrat text-2xl"
           >
             <span className="sr-only">Your Company</span>
             Pomelo
-          </a>
+          </Link>
         </div>
         <div className="-my-2 -mr-2 md:hidden">
           <Popover.Button className="inline-flex items-center justify-center rounded-md p-2 text-salamat-orange-dark hover:text-salamat-orangefocus:outline-none focus:ring-2 focus:ring-inset focus:ring-salamat-orange-light">

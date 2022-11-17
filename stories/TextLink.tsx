@@ -33,8 +33,8 @@ export const TextLink = ({ twClasses = '', url, ...props }: Props) => {
   }
 
   return (
-    <Link href={url}>
-      <a className={classNames(baseStyles, twClasses)}>{props.children}</a>
+    <Link href={url} className={classNames(baseStyles, twClasses)}>
+      {props.children}
     </Link>
   );
 };
