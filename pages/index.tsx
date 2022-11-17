@@ -1,16 +1,25 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import { SalamatHeader } from '../stories/SalamatHeader';
-import { Button } from '../stories/Button';
-import { Table } from '../stories/Table';
+import useSWR from 'swr';
+import { SalamatHeader } from 'stories/SalamatHeader';
+import { Button } from 'stories/Button';
+import { Table } from 'stories/Table';
+import { Data } from 'interfaces/ApiData';
 const Home: NextPage = () => {
+  const { data, error } = useSWR<Data>(
+    '/api/hello/?id=apple',
+    (url: string) => {
+      return fetch(url).then((res) => res.json());
+    }
+  );
+
   return (
     <>
       <SalamatHeader />
       <div className="flex flex-row py-7 px-5 justify-between">
         <h1 className="text-salamant-black text-2xl font-montserrat">
-          Broken Play
+          {data?.name}
         </h1>
         <div className="flex flex-row">
           <Button label="Export" size="extra-small" />

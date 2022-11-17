@@ -1,15 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-
-type Data = {
-  name: string;
-  id: string;
-  budgets: [];
-  expenses: [];
-};
+import { Data } from 'interfaces/ApiData';
 
 const mockData: Data = {
-  name: 'test Project',
+  name: 'Test Project',
   id: 'apple',
   budgets: [],
   expenses: [],
