@@ -3,11 +3,23 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 type Data = {
   name: string;
+  id: string;
+  budgets: [];
+  expenses: [];
+};
+
+const mockData: Data = {
+  name: 'test Project',
+  id: 'apple',
+  budgets: [],
+  expenses: [],
 };
 
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  res.status(200).json({ name: 'John Doe' });
+  if (req.method === 'GET' && req.query.id === 'apple') {
+    res.status(200).json(mockData);
+  }
 }
