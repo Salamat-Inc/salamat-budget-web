@@ -1,25 +1,25 @@
+import { useNumberFormatter } from 'hooks/numberFormatter';
 import React from 'react';
 
 const renderProjectedAmount = (
   projectData: any,
-  weekData: any,
+  order: any,
   formatter: any
 ) => {
-  console.log(weekData);
-  return projectData.dataOrder.map((item: any, index: any) => {
+  return order.map((item: any, index: any) => {
     const category = projectData.categories[item.name];
     let categoryTotalToDate = 0;
 
-    const rows = category.order.map((i: any, s: any) => {
-      const rowToDate = weekData.rateData[i.id];
-      categoryTotalToDate += rowToDate.totalToDate;
+    const rows = category.order.map((row: any) => {
+      categoryTotalToDate += row.projectedTotal;
+
       return (
         <div
-          key={`yolo-${i.id}`}
+          key={`projected-total-${row.id}`}
           className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1"
         >
           <div className="w-full text-salamat-black text-right">
-            {formatter.format(rowToDate.totalToDate)}
+            {formatter.format(row.projectedTotal)}
           </div>
         </div>
       );
@@ -28,7 +28,7 @@ const renderProjectedAmount = (
     return (
       <>
         <div
-          key={`${weekData.name}-${item.name}-${index}`}
+          key={`${item.name}-${index}`}
           className="flex justify-between bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 "
         >
           <div className="w-full text-right">
@@ -42,7 +42,13 @@ const renderProjectedAmount = (
   });
 };
 
-export const ProjectedTotalReport = () => {
+export const ProjectedTotalReport = ({ project }: any) => {
+  const currencyFormatter = useNumberFormatter({
+    maximumFractionDigits: 2,
+    style: 'currency',
+    currency: 'USD',
+  });
+
   return (
     <div className="w-[25%] shadow-[-7px_0_14px_-7px_rgba(54,61,77,0.4)] p-4">
       <div className="flex flex-row justify-between items-center h-16"></div>
@@ -52,7 +58,7 @@ export const ProjectedTotalReport = () => {
       </div>
 
       {/* each item and sub table */}
-      {/* {renderProjectedAmount(projectData, currentReport, currencyFormatter)} */}
+      {renderProjectedAmount(project, project.dataOrder, currencyFormatter)}
     </div>
   );
 };
