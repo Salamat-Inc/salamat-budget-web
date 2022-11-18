@@ -23,12 +23,7 @@ const Home: NextPage = () => {
           <Button label="Share" size="extra-small" twClasses="ml-4" />
         </div>
       </div>
-      <div className="px-5">
-        {/* <Table /> */}
-        <div>{`This is the current budget: ${Object.keys(project)}`}</div>
-        <div>{project.name}</div>
-        <div>{project.employees}</div>
-      </div>
+      <div className="px-5">{project && <Table project={project} />}</div>
     </>
   );
 };

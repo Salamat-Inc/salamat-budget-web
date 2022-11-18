@@ -9,7 +9,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const initialState = {};
+const initialState = null;
 
 export const BudgetContext =
   React.createContext<BudgetContextInterface | null>(null);
