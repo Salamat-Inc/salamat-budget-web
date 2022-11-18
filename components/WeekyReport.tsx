@@ -1,6 +1,7 @@
 import React from 'react';
+import { useNumberFormatter } from 'hooks/numberFormatter';
 
-const renderTotalToDate = (projectData: any, weekData: any) => {
+const renderTotalToDate = (projectData: any, weekData: any, formatter: any) => {
   return projectData.dataOrder.map((item: any, index: any) => {
     const category = projectData.categories[item.name];
     let categoryTotalToDate = 0;
@@ -14,7 +15,7 @@ const renderTotalToDate = (projectData: any, weekData: any) => {
           className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1"
         >
           <div className="w-full text-salamat-black text-right">
-            {rowToDate.totalToDate}
+            {formatter.format(rowToDate.totalToDate)}
           </div>
         </div>
       );
@@ -26,7 +27,9 @@ const renderTotalToDate = (projectData: any, weekData: any) => {
           key={`${weekData.name}-${item.name}-${index}`}
           className="flex justify-between bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 "
         >
-          <div className="w-full text-right">{categoryTotalToDate}</div>
+          <div className="w-full text-right">
+            {formatter.format(categoryTotalToDate)}
+          </div>
         </div>
 
         {rows}
@@ -35,7 +38,7 @@ const renderTotalToDate = (projectData: any, weekData: any) => {
   });
 };
 
-const renderWeekly = (projectData: any, weekData: any) => {
+const renderWeekly = (projectData: any, weekData: any, formatter: any) => {
   console.log(projectData, weekData);
   return projectData.dataOrder.map((item: any, index: any) => {
     const category = projectData.categories[item.name];
@@ -55,7 +58,7 @@ const renderWeekly = (projectData: any, weekData: any) => {
             {emp.rate}
           </div> */}
           <div className="w-[40%] text-salamat-black text-right">
-            {emp.currentTotal}
+            {formatter.format(emp.currentTotal)}
           </div>
         </div>
       );
@@ -67,7 +70,9 @@ const renderWeekly = (projectData: any, weekData: any) => {
           className="flex justify-between bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 "
         >
           {/* <div className="w-[50%]">{item.name}</div> */}
-          <div className="w-full text-right">{categoryTotalWeek}</div>
+          <div className="w-full text-right">
+            {formatter.format(categoryTotalWeek)}
+          </div>
         </div>
         {rows}
       </>
@@ -90,6 +95,13 @@ const renderWeekly = (projectData: any, weekData: any) => {
 export const WeeklyReport = ({ weekData, projectData }: any) => {
   console.log(projectData);
   const currentReport = weekData[0];
+
+  const currencyFormatter = useNumberFormatter({
+    maximumFractionDigits: 2,
+    style: 'currency',
+    currency: 'USD',
+  });
+
   return (
     <>
       <div className="w-[25%] p-4">
@@ -106,7 +118,7 @@ export const WeeklyReport = ({ weekData, projectData }: any) => {
           <div className="w-[40%] text-right">Total</div>
         </div>
 
-        {renderWeekly(projectData, currentReport)}
+        {renderWeekly(projectData, currentReport, currencyFormatter)}
 
         {/* each item and sub table */}
 
@@ -172,7 +184,7 @@ export const WeeklyReport = ({ weekData, projectData }: any) => {
         </div>
 
         {/* each item and sub table */}
-        {renderTotalToDate(projectData, currentReport)}
+        {renderTotalToDate(projectData, currentReport, currencyFormatter)}
       </div>
     </>
   );

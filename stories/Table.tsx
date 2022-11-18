@@ -1,5 +1,6 @@
 import React from 'react';
 import { WeeklyReport } from 'components/WeekyReport';
+import { useNumberFormatter } from 'hooks/numberFormatter';
 
 const people = [
   {
@@ -19,7 +20,12 @@ const columnTitles = [
 
 const renderStuffRight = (data: any) => {};
 
-const renderStuffLeft = (categories: any, order: any, employees: any) => {
+const renderStuffLeft = (
+  categories: any,
+  order: any,
+  employees: any,
+  formatter: any
+) => {
   console.log('this is the data', order);
   return order.map((item: any, index: number) => {
     const category = categories[item.name];
@@ -36,7 +42,9 @@ const renderStuffLeft = (categories: any, order: any, employees: any) => {
           <div className="w-[40%] text-salamat-black">{hire.name}</div>
           <div className="w-[10%] text-salamat-black text-right">{e.days}</div>
           <div className="w-[10%] text-salamat-black text-right">{e.rate}</div>
-          <div className="w-[40%] text-salamat-black text-right">{e.total}</div>
+          <div className="w-[40%] text-salamat-black text-right">
+            {formatter.format(e.total)}
+          </div>
         </div>
       );
     });
@@ -47,7 +55,9 @@ const renderStuffLeft = (categories: any, order: any, employees: any) => {
           className="flex justify-between bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 "
         >
           <div className="w-[50%]">{item.name}</div>
-          <div className="w-[50%] text-right">{categoryTotal}</div>
+          <div className="w-[50%] text-right">
+            {formatter.format(categoryTotal)}
+          </div>
         </div>
         {rows}
       </>
@@ -86,7 +96,11 @@ const renderStuffLeft = (categories: any, order: any, employees: any) => {
 export const Table = ({ project }: { project: any }) => {
   const data = project.categories;
   const weeklyData = project.weeklyReports;
-
+  const currencyFormatter = useNumberFormatter({
+    maximumFractionDigits: 2,
+    style: 'currency',
+    currency: 'USD',
+  });
   console.log(project);
 
   return (
@@ -108,7 +122,12 @@ export const Table = ({ project }: { project: any }) => {
         </div>
 
         {/* New Rendering */}
-        {renderStuffLeft(data, project.dataOrder, project.employees)}
+        {renderStuffLeft(
+          data,
+          project.dataOrder,
+          project.employees,
+          currencyFormatter
+        )}
 
         {/* each item and sub table */}
         {/* <div className="flex justify-between bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 ">
