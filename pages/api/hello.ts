@@ -20,6 +20,7 @@ const mockData: any = {
           rate: 100,
           days: 2,
           total: 200,
+          projectedTotal: 400,
         },
         {
           id: 124,
@@ -27,6 +28,7 @@ const mockData: any = {
           rate: 100,
           days: 2,
           total: 200,
+          projectedTotal: 400,
         },
       ],
     },

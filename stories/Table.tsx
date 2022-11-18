@@ -1,53 +1,114 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { PlusCircleIcon } from '@heroicons/react/24/outline';
 import { WeeklyReport } from 'components/WeekyReport';
 import { useNumberFormatter } from 'hooks/numberFormatter';
+import { BudgetContext } from 'contexts/Budget/BudgetContext';
+import { useDebounce } from 'hooks/useDebounce';
 
-const people = [
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-];
+const LeftRow = ({ category, name, data, formatter }: any) => {
+  const { dispatch } = useContext(BudgetContext);
 
-const columnTitles = [
-  {
-    name: 'Director',
-    amount: 20500.0,
-  },
-];
+  const [daysTerm, setDaysTerm] = useState<number | undefined>(
+    data.days || undefined
+  );
 
-const renderStuffRight = (data: any) => {};
+  const debouncedDaysTerm: number = useDebounce<number>(daysTerm, 1500);
 
-const renderStuffLeft = (
+  useEffect(
+    () => {
+      console.log('going to dispatch');
+      dispatch({
+        type: 'UPDATE_DAYS',
+        payload: {
+          days: debouncedDaysTerm || 0,
+          employeeId: data.id,
+          category,
+        },
+      });
+    },
+    [debouncedDaysTerm] // Only call effect if debounced search term changes
+  );
+
+  const [rateTerm, setRateTerm] = useState<number>(data.rate);
+
+  const debouncedRateTerm: number = useDebounce<number>(rateTerm, 1500);
+
+  useEffect(
+    () => {
+      console.log('going to dispatch');
+      dispatch({
+        type: 'UPDATE_RATE',
+        payload: {
+          rate: debouncedRateTerm,
+          employeeId: data.id,
+          category,
+        },
+      });
+    },
+    [debouncedRateTerm] // Only call effect if debounced search term changes
+  );
+
+  return (
+    <div className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1">
+      <div className="w-[45%] text-salamat-black">{name}</div>
+      <div className="w-[10%]">
+        <input
+          className="appearance-none bg-transparent border-none w-full text-salamat-black text-right mr-3 py-1 px-2 leading-tight focus:outline-none"
+          type="number"
+          placeholder="0"
+          aria-label="days worked"
+          onFocus={(e) => e.target.select()}
+          onChange={(e) => {
+            setDaysTerm(parseFloat(e.target.value) || undefined);
+          }}
+          value={daysTerm}
+        ></input>
+      </div>
+      <div className="w-[15%] flex flex-row items-baseline text-salamat-black text-right relative">
+        <input
+          className="before:content-['Hello\_World'] appearance-none bg-transparent border-none w-full text-salamat-black text-right mr-3 py-1 px-2 leading-tight focus:outline-none"
+          type="number"
+          placeholder="0"
+          aria-label="rate for work"
+          onFocus={(e) => e.target.select()}
+          onChange={(e) => {
+            setRateTerm(e.target.value);
+          }}
+          value={rateTerm}
+        ></input>
+      </div>
+      <div className="w-[30%] text-salamat-black text-right">
+        {formatter.format(data.total)}
+      </div>
+    </div>
+  );
+};
+
+const renderActualTotals = (
   categories: any,
   order: any,
   employees: any,
   formatter: any
 ) => {
-  console.log('this is the data', order);
   return order.map((item: any, index: number) => {
     const category = categories[item.name];
 
     let categoryTotal = 0;
+
     const rows = category.order.map((e: any, i: number) => {
       const hire = employees[e.id];
       categoryTotal += e.total;
       return (
-        <div
-          key={`${e.id}-${i}`}
-          className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1"
-        >
-          <div className="w-[40%] text-salamat-black">{hire.name}</div>
-          <div className="w-[10%] text-salamat-black text-right">{e.days}</div>
-          <div className="w-[10%] text-salamat-black text-right">{e.rate}</div>
-          <div className="w-[40%] text-salamat-black text-right">
-            {formatter.format(e.total)}
-          </div>
-        </div>
+        <LeftRow
+          category={item.name}
+          key={`${e.id}-row-main`}
+          name={hire.name}
+          data={e}
+          formatter={formatter}
+        />
       );
     });
+
     return (
       <>
         <div
@@ -63,34 +124,6 @@ const renderStuffLeft = (
       </>
     );
   });
-  // return Object.keys(data).map((category) => {
-  //   return (
-  //     <>
-  //       <div className="flex justify-between bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 ">
-  //         <div className="w-[50%]">{category}</div>
-  //         <div className="w-[50%] text-right">Yolo</div>
-  //       </div>
-
-  //       {data[category].employees.map((e: any, i: number) => (
-  //         <div
-  //           key={`${e.name}-${i}`}
-  //           className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1"
-  //         >
-  //           <div className="w-[40%] text-salamat-black">{e.name}</div>
-  //           <div className="w-[10%] text-salamat-black text-right">
-  //             {e.days}
-  //           </div>
-  //           <div className="w-[10%] text-salamat-black text-right">
-  //             {e.rate}
-  //           </div>
-  //           <div className="w-[40%] text-salamat-black text-right">
-  //             {e.total}
-  //           </div>
-  //         </div>
-  //       ))}
-  //     </>
-  //   );
-  // });
 };
 
 export const Table = ({ project }: { project: any }) => {
@@ -101,7 +134,8 @@ export const Table = ({ project }: { project: any }) => {
     style: 'currency',
     currency: 'USD',
   });
-  console.log(project);
+
+  const { dispatch } = useContext(BudgetContext);
 
   return (
     // Container for the table
@@ -115,74 +149,34 @@ export const Table = ({ project }: { project: any }) => {
 
         {/* Header of the table */}
         <div className="flex justify-between bg-salamat-blue-dark text-salamat-white rounded-md px-2.5 py-1.5">
-          <div className="w-[40%]">Items</div>
+          <div className="w-[45%] flex flex-row">
+            <button
+              onClick={() =>
+                dispatch({
+                  type: 'CREATE_EMPLOYEE',
+                  payload: {
+                    name: 'Jane Doe',
+                    category: 'Directors',
+                  },
+                })
+              }
+            >
+              <PlusCircleIcon height="22" width="22" />
+            </button>
+            <span className="ml-1">Items</span>
+          </div>
           <div className="w-[10%] text-right">Days</div>
-          <div className="w-[10%] text-right">Rate</div>
-          <div className="w-[40%] text-right">Total</div>
+          <div className="w-[15%] text-right">Rate</div>
+          <div className="w-[30%] text-right">Total</div>
         </div>
 
         {/* New Rendering */}
-        {renderStuffLeft(
+        {renderActualTotals(
           data,
           project.dataOrder,
           project.employees,
           currencyFormatter
         )}
-
-        {/* each item and sub table */}
-        {/* <div className="flex justify-between bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 ">
-          <div className="w-[50%]">Directors</div>
-          <div className="w-[50%] text-right">$20,500.50</div>
-        </div>
-        <div className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1">
-          <div className="w-[40%] text-salamat-black">George Lucas</div>
-          <div className="w-[10%] text-salamat-black text-right">Days</div>
-          <div className="w-[10%] text-salamat-black text-right">Rate</div>
-          <div className="w-[40%] text-salamat-black text-right">10,000.00</div>
-        </div>
-        <div className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1">
-          <div className="w-[40%] text-salamat-black">George Lucas</div>
-          <div className="w-[10%] text-salamat-black text-right">Days</div>
-          <div className="w-[10%] text-salamat-black text-right">Rate</div>
-          <div className="w-[40%] text-salamat-black text-right">10,000.00</div>
-        </div>
-        <div className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1">
-          <div className="w-[40%] text-salamat-black">George Lucas</div>
-          <div className="w-[10%] text-salamat-black text-right">Days</div>
-          <div className="w-[10%] text-salamat-black text-right">Rate</div>
-          <div className="w-[40%] text-salamat-black text-right">10,000.00</div>
-        </div> */}
-
-        {/* each item and sub table */}
-        {/* <div className="flex justify-between bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4">
-          <div className="w-[50%]">Cast</div>
-          <div className="w-[50%] text-right">$20,500.50</div>
-        </div> */}
-
-        {/* sub category example */}
-        {/* <div className="flex justify-between bg-salamat-orange-light text-salamat-black font-bold rounded-md px-2.5 py-1.5 mt-1">
-          <div className="w-[50%]">Principal Cast</div>
-          <div className="w-[50%] text-right">$20,500.50</div>
-        </div> */}
-
-        {/* <div className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1">
-          <div className="w-[40%] text-salamat-black">George Lucas</div>
-          <div className="w-[10%] text-salamat-black text-right">Days</div>
-          <div className="w-[10%] text-salamat-black text-right">Rate</div>
-          <div className="w-[40%] text-salamat-black text-right">10,000.00</div>
-        </div>
-        <div className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1">
-          <div className="w-[40%] text-salamat-black">George Lucas</div>
-          <div className="w-[10%] text-salamat-black text-right">Days</div>
-          <div className="w-[10%] text-salamat-black text-right">Rate</div>
-          <div className="w-[40%] text-salamat-black text-right">10,000.00</div>
-        </div>
-        <div className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1">
-          <div className="w-[40%] text-salamat-black">George Lucas</div>
-          <div className="w-[10%] text-salamat-black text-right">Days</div>
-          <div className="w-[10%] text-salamat-black text-right">Rate</div>
-          <div className="w-[40%] text-salamat-black text-right">10,000.00</div>
-        </div> */}
       </div>
 
       <WeeklyReport weekData={weeklyData} projectData={project} />
