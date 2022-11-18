@@ -22,7 +22,7 @@ module.exports = {
         'salamat-yellow': '#FFD553',
         'salamat-white': '#FFF',
         'salamat-less-white': '#EEE',
-        'salamat-lesser-white:': '#EBEFF2',
+        'salamat-lesser-white': '#EBEFF2',
         'salamat-orange': '#DF9727',
         'salamat-orange-light': '#F2CA8D',
         'salamat-orange-dark': '#E5AF5C',
