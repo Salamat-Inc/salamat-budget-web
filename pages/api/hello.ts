@@ -5,8 +5,8 @@ import { Data } from 'interfaces/ApiData';
 const mockData: Data = {
   name: 'Test Project',
   id: 'apple',
-  budgets: [],
-  expenses: [],
+  categories: [],
+  employees: [],
 };
 
 export default function handler(

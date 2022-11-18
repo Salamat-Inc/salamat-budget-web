@@ -1,6 +1,6 @@
 export interface Data {
   name: string;
   id: string;
-  budgets: [];
-  expenses: [];
+  employees: any;
+  categories: any;
 }
