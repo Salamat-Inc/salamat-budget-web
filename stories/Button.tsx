@@ -40,7 +40,7 @@ export const Button = ({
   ...props
 }: ButtonProps) => {
   const baseStyles =
-    'inline-flex items-center border border-transparent font-medium focus:outline-none focus:ring-salamat-black focus:ring-offset-2 text-salamat-black shadow-sm bg-salamat-yellow';
+    'inline-flex items-center border border-transparent font-medium focus:outline-none focus:ring-salamat-black focus:ring-offset-2 text-salamat-black shadow-sm bg-salamat-yellow font-mont-serrat';
   return (
     <button
       type="button"
