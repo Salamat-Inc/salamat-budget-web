@@ -15,7 +15,6 @@ const LeftRow = ({ category, name, data, formatter }: any) => {
 
   useEffect(
     () => {
-      console.log('going to dispatch');
       dispatch({
         type: 'UPDATE_DAYS',
         payload: {
@@ -90,7 +89,7 @@ const renderActualTotals = (
   formatter: any
 ) => {
   return order.map((item: any) => {
-    const category = categories[item.name];
+    const category = categories[item.id];
 
     let categoryTotal = 0;
 
@@ -99,7 +98,7 @@ const renderActualTotals = (
       categoryTotal += e.total;
       return (
         <LeftRow
-          category={item.name}
+          category={item}
           key={`${e.id}-row-main`}
           name={hire.name}
           data={e}
@@ -151,7 +150,7 @@ export const ActualTotalReport = ({ project, data }: any) => {
                 type: 'CREATE_EMPLOYEE',
                 payload: {
                   name: 'Jane Doe',
-                  category: 'Directors',
+                  category: 1,
                 },
               })
             }

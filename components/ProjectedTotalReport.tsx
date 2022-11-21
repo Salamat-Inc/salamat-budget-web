@@ -7,7 +7,7 @@ const renderProjectedAmount = (
   formatter: any
 ) => {
   return order.map((item: any, index: any) => {
-    const category = projectData.categories[item.name];
+    const category = projectData.categories[item.id];
     let categoryTotalToDate = 0;
 
     const rows = category.order.map((row: any) => {

@@ -4,48 +4,6 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 import { useDebounce } from 'hooks/useDebounce';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
 
-// const renderProjectedAmount = (
-//   projectData: any,
-//   weekData: any,
-//   formatter: any
-// ) => {
-//   console.log(weekData);
-//   return projectData.dataOrder.map((item: any, index: any) => {
-//     const category = projectData.categories[item.name];
-//     let categoryTotalToDate = 0;
-
-//     const rows = category.order.map((i: any, s: any) => {
-//       const rowToDate = weekData.rateData[i.id];
-//       categoryTotalToDate += rowToDate.totalToDate;
-//       return (
-//         <div
-//           key={`yolo-${i.id}`}
-//           className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1"
-//         >
-//           <div className="w-full text-salamat-black text-right">
-//             {formatter.format(rowToDate.totalToDate)}
-//           </div>
-//         </div>
-//       );
-//     });
-
-//     return (
-//       <>
-//         <div
-//           key={`${weekData.name}-${item.name}-${index}`}
-//           className="flex justify-between bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 "
-//         >
-//           <div className="w-full text-right">
-//             {formatter.format(categoryTotalToDate)}
-//           </div>
-//         </div>
-
-//         {rows}
-//       </>
-//     );
-//   });
-// };
-
 const WeeklyRow = ({ employee, formatter, category }: any) => {
   const { dispatch } = useContext(BudgetContext);
 
@@ -94,7 +52,7 @@ const WeeklyRow = ({ employee, formatter, category }: any) => {
 
 const renderWeekly = (projectData: any, weekData: any, formatter: any) => {
   return projectData.dataOrder.map((item: any, index: any) => {
-    const category = projectData.categories[item.name];
+    const category = projectData.categories[item.id];
     let categoryTotalWeek = 0;
     const rows = category.order.map((e: any, index: any) => {
       const emp = weekData.rateData[e.id];
@@ -103,7 +61,7 @@ const renderWeekly = (projectData: any, weekData: any, formatter: any) => {
       return (
         <WeeklyRow
           key={`weekly-${index}-${emp.id}`}
-          category={item.name}
+          category={item}
           employee={emp}
           i={index}
           formatter={formatter}

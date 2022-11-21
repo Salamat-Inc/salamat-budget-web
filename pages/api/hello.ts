@@ -5,6 +5,7 @@ import { Data } from 'interfaces/ApiData';
 const mockData: any = {
   name: 'Test Project',
   id: 'apple',
+  projectedTotal: 800,
   dataOrder: [
     {
       id: 1,
@@ -12,7 +13,8 @@ const mockData: any = {
     },
   ],
   categories: {
-    Directors: {
+    1: {
+      name: 'Directors',
       order: [
         {
           id: 123,
@@ -31,11 +33,6 @@ const mockData: any = {
           projectedTotal: 400,
         },
       ],
-    },
-  },
-  subCategories: {
-    10: {
-      name: 'Cast',
     },
   },
   employees: {
@@ -63,7 +60,6 @@ const mockData: any = {
       },
     },
   ],
-  // employees: [{ name: 'George Lucas', salary: 100000 }],
 };
 
 export default function handler(
