@@ -33,7 +33,6 @@ const LeftRow = ({ category, name, data, formatter }: any) => {
 
   useEffect(
     () => {
-      console.log('going to dispatch');
       dispatch({
         type: 'UPDATE_RATE',
         payload: {

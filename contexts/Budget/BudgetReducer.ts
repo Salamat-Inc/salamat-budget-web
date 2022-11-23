@@ -1,10 +1,16 @@
-import { strictEqual } from 'assert';
-import { normalizeRepeatedSlashes } from 'next/dist/shared/lib/utils';
+/**
+ * SCENARIOS WHERE THE BUDGET IS CHANGED
+ *
+ * update employee days
+ * update employee rate
+ * update employee days on a specific week
+ * update employee rate on a specific week
+ */
 
 export const CREATE_EMPLOYEE = 'CREATE_EMPLOYEE';
 export const SET_PROJECT = 'SET_PROJECT';
-let idState = 12;
 
+let idState = 12;
 let employeeIdState = 400;
 
 export const budgetReducer = (state: any, action: any) => {
@@ -13,7 +19,6 @@ export const budgetReducer = (state: any, action: any) => {
       return action.payload;
     }
     case CREATE_EMPLOYEE: {
-      console.log(action.payload);
       const categoryId = action.payload.category;
       let orderItem;
       // add category to the order
@@ -26,7 +31,7 @@ export const budgetReducer = (state: any, action: any) => {
       if (orderItem) {
         updatedOrderItems.push(orderItem);
       }
-      console.log('updatedOrder items', updatedOrderItems);
+
       const employeeId = employeeIdState++;
 
       const employee = {
@@ -38,8 +43,6 @@ export const budgetReducer = (state: any, action: any) => {
       };
 
       const updatedCategoryOrder = [...state.categories[categoryId].order];
-
-      console.log('here', updatedCategoryOrder, employee);
 
       updatedCategoryOrder.push(employee);
 
@@ -70,14 +73,11 @@ export const budgetReducer = (state: any, action: any) => {
           },
         },
       };
-      console.log('update state', n);
 
       return n;
     }
 
     case 'UPDATE_DAYS': {
-      console.log('hello', action.payload);
-
       // get the list of employees for the category passed
       const updated = [...state.categories[action.payload.category.id].order];
 

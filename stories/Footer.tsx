@@ -26,7 +26,6 @@ const calculateWeeklyTotal = (project: any, currentWeekIndex = 0) => {
   const weeklyData = project.weeklyReports[currentWeekIndex];
 
   Object.keys(weeklyData.rateData).forEach((item) => {
-    console.log('inside weelyTotal', item, weeklyData[item]);
     total += weeklyData.rateData[item].currentTotal;
   });
 
@@ -62,7 +61,7 @@ export const Footer = ({ project }: Props) => {
       {/* weekly totals box */}
       <div className="w-[25%] mx-4 py-4 px-8 text-right bg-salamat-black text-salamat-white">
         <div className="uppercase">This Week:</div>
-        <div>{weeklyTotal}</div>
+        <div>{currencyFormatter.format(weeklyTotal)}</div>
       </div>
 
       {/* projected totals box */}
