@@ -4,25 +4,30 @@ import { useNumberFormatter } from 'hooks/numberFormatter';
 import { useDebounce } from 'hooks/useDebounce';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
 
-const LeftRow = ({ category, name, data, formatter }: any) => {
+const LeftRow = ({ category, categoryId, name, data, formatter }: any) => {
   const { dispatch } = useContext(BudgetContext);
 
-  const [daysTerm, setDaysTerm] = useState<number | undefined>(
-    data.days || undefined
-  );
+  const [daysTerm, setDaysTerm] = useState<string>(data.days || '');
 
-  const debouncedDaysTerm: number = useDebounce<number>(daysTerm, 1500);
+  const debouncedDaysTerm: string = useDebounce<string>(daysTerm, 1500);
 
   useEffect(
     () => {
-      dispatch({
-        type: 'UPDATE_DAYS',
-        payload: {
-          days: debouncedDaysTerm || 0,
-          employeeId: data.id,
-          category,
-        },
-      });
+      const days = parseFloat(debouncedDaysTerm);
+
+      // only update the days if they are different from what is currently set
+      if (days !== data.days) {
+        dispatch({
+          type: 'UPDATE_DAYS',
+          payload: {
+            days: Number.isNaN(days) ? 0 : days,
+            realDays: debouncedDaysTerm,
+            employeeId: data.id,
+            category,
+            categoryId,
+          },
+        });
+      }
     },
     [debouncedDaysTerm] // Only call effect if debounced search term changes
   );
@@ -31,22 +36,25 @@ const LeftRow = ({ category, name, data, formatter }: any) => {
 
   const debouncedRateTerm: number = useDebounce<number>(rateTerm, 1500);
 
-  useEffect(
-    () => {
-      dispatch({
-        type: 'UPDATE_RATE',
-        payload: {
-          rate: debouncedRateTerm,
-          employeeId: data.id,
-          category,
-        },
-      });
-    },
-    [debouncedRateTerm] // Only call effect if debounced search term changes
-  );
+  // useEffect(
+  //   () => {
+  //     dispatch({
+  //       type: 'UPDATE_RATE',
+  //       payload: {
+  //         rate: debouncedRateTerm,
+  //         employeeId: data.id,
+  //         category,
+  //       },
+  //     });
+  //   },
+  //   [debouncedRateTerm] // Only call effect if debounced search term changes
+  // );
 
   return (
-    <div className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1">
+    <div
+      key={data.id}
+      className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1"
+    >
       <div className="w-[45%] text-salamat-black">{name}</div>
       <div className="w-[10%]">
         <input
@@ -56,7 +64,7 @@ const LeftRow = ({ category, name, data, formatter }: any) => {
           aria-label="days worked"
           onFocus={(e) => e.target.select()}
           onChange={(e) => {
-            setDaysTerm(parseFloat(e.target.value) || undefined);
+            setDaysTerm(e.target.value);
           }}
           value={daysTerm}
         ></input>
@@ -87,18 +95,17 @@ const renderActualTotals = (
   employees: any,
   formatter: any
 ) => {
-  return order.map((item: any) => {
+  return order.map((item: any, index: number) => {
     const category = categories[item.id];
-
-    let categoryTotal = 0;
 
     const rows = category.order.map((e: any, i: number) => {
       const hire = employees[e.id];
-      categoryTotal += e.total;
+
       return (
         <LeftRow
-          category={item}
-          key={`${e.id}-row-main`}
+          category={category}
+          categoryId={item.id}
+          key={`${e.id}-${i}-row-actual`}
           name={hire.name}
           data={e}
           formatter={formatter}
@@ -107,18 +114,15 @@ const renderActualTotals = (
     });
 
     return (
-      <>
-        <div
-          key={item.id}
-          className="flex justify-between bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 "
-        >
+      <React.Fragment key={`${item.id}-something-else`}>
+        <div className="flex justify-between bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 ">
           <div className="w-[50%]">{item.name}</div>
           <div className="w-[50%] text-right">
-            {formatter.format(categoryTotal)}
+            {formatter.format(category.total)}
           </div>
         </div>
         {rows}
-      </>
+      </React.Fragment>
     );
   });
 };

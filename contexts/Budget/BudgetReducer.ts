@@ -79,7 +79,8 @@ export const budgetReducer = (state: any, action: any) => {
 
     case 'UPDATE_DAYS': {
       // get the list of employees for the category passed
-      const updated = [...state.categories[action.payload.category.id].order];
+      // const updated = [...state.categories[action.payload.category.id].order];
+      const updated = [...action.payload.category.order];
 
       // find the employee whose days are being updated
       const n = updated.find((e) => e.id === action.payload.employeeId);
@@ -87,19 +88,65 @@ export const budgetReducer = (state: any, action: any) => {
       // set the new days for the employee
       n.days = action.payload.days;
 
-      // set the new total for the employee
-      n.total = n.days * n.rate;
+      // previous total of the employee
+      const prevTotal = n.total;
 
-      // set the new actual total within the actual total amount
-      // TODO
+      // previous total of the current category
+      const prevCategoryTotal = action.payload.category.total;
+
+      // set the new total for the employee
+      const employeeTotal = n.days * n.rate;
+
+      let categoryTotal = prevCategoryTotal;
+
+      if (prevTotal > employeeTotal) {
+        categoryTotal -= Math.abs(
+          Number((prevTotal - employeeTotal).toFixed(2))
+        );
+      } else if (prevTotal < employeeTotal) {
+        categoryTotal += Math.abs(
+          Number((prevTotal - employeeTotal).toFixed(2))
+        );
+      }
+
+      const prevActualTotal = state.actualTotal;
+      let newActualTotal = prevActualTotal;
+
+      if (prevCategoryTotal > categoryTotal) {
+        newActualTotal -= Math.abs(
+          Number((prevCategoryTotal - categoryTotal).toFixed(2))
+        );
+      } else if (prevCategoryTotal < categoryTotal) {
+        newActualTotal += Math.abs(
+          Number((prevCategoryTotal - categoryTotal).toFixed(2))
+        );
+      }
+
+      const newOrder = action.payload.category.order.map((item: any) => {
+        if (item.id === action.payload.employeeId) {
+          item.total = employeeTotal;
+        }
+        return item;
+      });
+
       return {
         ...state,
+        categories: {
+          ...state.categories,
+          [action.payload.categoryId]: {
+            ...state.categories[action.payload.category.id],
+            order: newOrder,
+            total: categoryTotal,
+          },
+        },
+        actualTotal: newActualTotal,
       };
     }
 
     case 'UPDATE_RATE': {
       // get the order for the category being updated
-      const updated = [...state.categories[action.payload.category.id].order];
+      // const updated = [...state.categories[action.payload.category.id].order];
+      const updated = [...action.payload.category.order];
 
       // find the employee id within the list of rows
       const n = updated.find((e) => e.id === action.payload.employeeId);

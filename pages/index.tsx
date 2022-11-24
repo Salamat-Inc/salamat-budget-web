@@ -15,7 +15,7 @@ const Home: NextPage = () => {
   return (
     <>
       <SalamatHeader />
-      {project && (
+      {project ? (
         <>
           <main className="pb-24">
             <div className="flex flex-row py-7 px-5 justify-between">
@@ -31,7 +31,7 @@ const Home: NextPage = () => {
           </main>
           <Footer project={project} />
         </>
-      )}
+      ) : null}
     </>
   );
 };

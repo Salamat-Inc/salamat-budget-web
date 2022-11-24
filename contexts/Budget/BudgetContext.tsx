@@ -5,6 +5,7 @@ import {
 } from 'interfaces/BudgetContextInterface';
 import { budgetReducer, SET_PROJECT, CREATE_EMPLOYEE } from './BudgetReducer';
 
+let a = 1;
 type Props = {
   children: React.ReactNode;
 };

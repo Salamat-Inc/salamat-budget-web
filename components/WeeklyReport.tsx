@@ -15,7 +15,6 @@ const WeeklyRow = ({ employee, formatter, category }: any) => {
 
   useEffect(
     () => {
-      console.log('going to dispatch from weekly');
       dispatch({
         type: 'UPDATE_DAYS_WEEKLY',
         payload: {
@@ -88,7 +87,6 @@ const renderWeekly = (projectData: any, weekData: any, formatter: any) => {
 
 export const WeeklyReport = ({ weekData, projectData }: any) => {
   const currentReport = weekData[0];
-  console.log('yo', currentReport);
 
   const currencyFormatter = useNumberFormatter({
     maximumFractionDigits: 2,
