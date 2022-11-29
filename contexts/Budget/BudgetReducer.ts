@@ -79,7 +79,6 @@ export const budgetReducer = (state: any, action: any) => {
 
     case 'UPDATE_DAYS': {
       // get the list of employees for the category passed
-      // const updated = [...state.categories[action.payload.category.id].order];
       const updated = [...action.payload.category.order];
 
       // find the employee whose days are being updated
@@ -99,26 +98,16 @@ export const budgetReducer = (state: any, action: any) => {
 
       let categoryTotal = prevCategoryTotal;
 
-      if (prevTotal > employeeTotal) {
-        categoryTotal -= Math.abs(
-          Number((prevTotal - employeeTotal).toFixed(2))
-        );
-      } else if (prevTotal < employeeTotal) {
-        categoryTotal += Math.abs(
-          Number((prevTotal - employeeTotal).toFixed(2))
-        );
+      if (prevTotal !== employeeTotal) {
+        categoryTotal += Number((employeeTotal - prevTotal).toFixed(2));
       }
 
       const prevActualTotal = state.actualTotal;
       let newActualTotal = prevActualTotal;
 
-      if (prevCategoryTotal > categoryTotal) {
-        newActualTotal -= Math.abs(
-          Number((prevCategoryTotal - categoryTotal).toFixed(2))
-        );
-      } else if (prevCategoryTotal < categoryTotal) {
-        newActualTotal += Math.abs(
-          Number((prevCategoryTotal - categoryTotal).toFixed(2))
+      if (prevCategoryTotal !== categoryTotal) {
+        newActualTotal += Number(
+          (categoryTotal - prevCategoryTotal).toFixed(2)
         );
       }
 
