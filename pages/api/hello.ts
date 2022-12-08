@@ -17,57 +17,38 @@ const mockData: any = {
     1: {
       name: 'Directors',
       total: 300,
-      order: [
-        // {
-        //   id: 123,
-        //   type: 'employee',
-        //   rate: 100,
-        //   days: 2,
-        //   total: 200,
-        //   projectedTotal: 400,
-        // },
-        // {
-        //   id: 124,
-        //   type: 'employee',
-        //   rate: 100,
-        //   days: 1,
-        //   total: 100,
-        //   projectedTotal: 400,
-        // },
-        123,
-      ],
+      order: [123],
     },
   },
   employees: {
     123: {
       name: 'George Lucas',
       rate: 100,
-      totalDays: 2,
-      actualTotalSalary: 200,
+      totalDays: 3,
+      actualTotalSalary: 300,
       projectedTotalSalary: 400,
-      weeklyBreakdown: {},
+      weeklyBreakdown: {
+        'week-1-id': {
+          days: 1,
+          weeklyTotal: 100,
+        },
+      },
     },
-    // 124: {
-    //   name: 'John Doe',
-    // },
   },
   weeklyReports: [
     {
       name: 'week 1',
-      rateData: {
+      id: 'week-1-id',
+      weeklyTotal: 100,
+      employeePayBreakdown: {
         123: {
           days: 1,
-          currentTotal: 100,
-          totalToDate: 100,
+          total: 100,
         },
-        // 124: {
-        //   days: 1,
-        //   currentTotal: 200,
-        //   totalToDate: 200,
-        // },
       },
     },
   ],
+  projectedTotals: {},
 };
 
 export default function handler(

@@ -18,7 +18,7 @@ export const Table = ({ project }: { project: any }) => {
       <ActualTotalReport project={project} data={budgetData} />
 
       {/* Weekly report */}
-      {/* <WeeklyReport weekData={weeklyData} projectData={project} /> */}
+      <WeeklyReport projectData={project} />
 
       {/* Render projected totals */}
       {/* <ProjectedTotalReport project={project} /> */}

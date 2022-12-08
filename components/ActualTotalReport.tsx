@@ -60,8 +60,8 @@ const LeftRow = ({
   return (
     <div className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1">
       <div className="w-[45%] text-salamat-black">{employee.name}</div>
-      <div className="w-[10%]">
-        <input
+      <div className="w-[10%] text-salamat-black text-right">
+        {/* <input
           className="appearance-none bg-transparent border-none w-full text-salamat-black text-right mr-3 py-1 px-2 leading-tight focus:outline-none"
           type="number"
           placeholder="0"
@@ -71,7 +71,8 @@ const LeftRow = ({
             setDaysTerm(e.target.value);
           }}
           value={daysTerm}
-        ></input>
+        ></input> */}
+        {employee.totalDays}
       </div>
       <div className="w-[15%] flex flex-row items-baseline text-salamat-black text-right relative">
         <input

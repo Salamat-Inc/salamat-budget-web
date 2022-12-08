@@ -7,6 +7,8 @@
  * update employee rate on a specific week
  */
 
+import { WeeklyReport } from 'components/WeeklyReport';
+
 export const CREATE_EMPLOYEE = 'CREATE_EMPLOYEE';
 export const SET_PROJECT = 'SET_PROJECT';
 
@@ -159,6 +161,89 @@ export const budgetReducer = (state: any, action: any) => {
 
       return {
         ...state,
+      };
+    }
+
+    case 'UPDATE_DAYS_WEEKLY': {
+      console.log('updating the weekly days', action.payload);
+      const { employeeId, employee, days, currentReport, category } =
+        action.payload;
+
+      // get the current Employee Data
+      const employeeData = state.employees[employeeId];
+
+      const employeeRate = employeeData.rate;
+      let employeeDays = employeeData.totalDays;
+
+      // calculate the new total based on the updated days for this week
+      const updatedEmployeeWeeklyTotal = employeeRate * days;
+
+      console.log('updatedEmployeeWeeklyTotal', updatedEmployeeWeeklyTotal);
+
+      const currentEmployeeWeeklyData =
+        currentReport.employeePayBreakdown[employeeId];
+
+      const prevWeeklyDays = currentEmployeeWeeklyData.days;
+      const currentWeeklyDays = days;
+
+      const diffOfDays = Number(currentWeeklyDays - prevWeeklyDays);
+
+      employeeDays += diffOfDays;
+
+      const diffEmployeeTotal = employeeRate * diffOfDays;
+      let updatedEmployeeTotal =
+        employeeData.actualTotalSalary + diffEmployeeTotal;
+      console.log('yolo diff', updatedEmployeeTotal);
+
+      const updatedEmployeeWeeklyData = {
+        ...currentEmployeeWeeklyData,
+        days,
+        total: updatedEmployeeWeeklyTotal,
+      };
+
+      const categoryData = state.categories[category.id];
+
+      const updatedCategoryTotal = (categoryData.total += diffEmployeeTotal);
+
+      const updatedEmployeeData = {
+        ...employeeData,
+        totalDays: employeeDays,
+        actualTotalSalary: updatedEmployeeTotal,
+      };
+
+      let updatedReportTotal = currentReport.total;
+      updatedReportTotal += Number(
+        employee.WeeklyTotal - updatedEmployeeWeeklyTotal
+      ).toFixed(2);
+      console.log('here is the updatedEmployeeData', updatedEmployeeData);
+
+      return {
+        ...state,
+        categories: {
+          ...state.categories,
+          [category.id]: {
+            ...categoryData,
+            total: updatedCategoryTotal,
+          },
+        },
+        employees: {
+          ...state.employees,
+          [employeeId]: {
+            ...updatedEmployeeData,
+          },
+        },
+        weeklyReports: state.weeklyReports.map((report: any) => {
+          if (currentReport.id !== report.id) return report;
+
+          return {
+            ...currentReport,
+            weeklyTotal: updatedReportTotal,
+            employeePayBreakdown: {
+              ...currentReport.employeePayBreakDown,
+              [employeeId]: updatedEmployeeWeeklyData,
+            },
+          };
+        }),
       };
     }
 

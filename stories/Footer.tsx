@@ -47,28 +47,28 @@ export const Footer = ({ project }: Props) => {
     currency: 'USD',
   });
 
-  const actualTotal = calculateActualTotal(project);
-  const weeklyTotal = calculateWeeklyTotal(project);
+  // const actualTotal = calculateActualTotal(project);
+  // const weeklyTotal = calculateWeeklyTotal(project);
 
   return (
     <div className="fixed bottom-0 w-full flex flex-row min-w-[1200px]">
       {/* actual totals box */}
-      <div className="w-[50%] py-4 px-8 text-right bg-salamat-black text-salamat-white">
+      {/* <div className="w-[50%] py-4 px-8 text-right bg-salamat-black text-salamat-white">
         <div className="uppercase">Total Budget:</div>
         <div>{currencyFormatter.format(actualTotal)}</div>
-      </div>
+      </div> */}
 
       {/* weekly totals box */}
-      <div className="w-[25%] mx-4 py-4 px-8 text-right bg-salamat-black text-salamat-white">
+      {/* <div className="w-[25%] mx-4 py-4 px-8 text-right bg-salamat-black text-salamat-white">
         <div className="uppercase">This Week:</div>
         <div>{currencyFormatter.format(weeklyTotal)}</div>
-      </div>
+      </div> */}
 
       {/* projected totals box */}
-      <div className="w-[25%] py-4 px-8 text-right bg-salamat-black text-salamat-white">
+      {/* <div className="w-[25%] py-4 px-8 text-right bg-salamat-black text-salamat-white">
         <div className="uppercase">Projected Budget:</div>
         <div>{currencyFormatter.format(project.projectedTotal)}</div>
-      </div>
+      </div> */}
     </div>
   );
 };

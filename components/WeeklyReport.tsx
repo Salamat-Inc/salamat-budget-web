@@ -4,25 +4,36 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 import { useDebounce } from 'hooks/useDebounce';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
 
-const WeeklyRow = ({ employee, formatter, category }: any) => {
+const WeeklyRow = ({
+  employee,
+  employeeId,
+  formatter,
+  category,
+  currentReport,
+}: any) => {
   const { dispatch } = useContext(BudgetContext);
 
-  const [daysTerm, setDaysTerm] = useState<number | undefined>(
-    employee.days || undefined
-  );
+  const [daysTerm, setDaysTerm] = useState<string>(employee.days.toString());
 
-  const debouncedDaysTerm: number = useDebounce<number>(daysTerm, 1500);
+  const debouncedDaysTerm: string = useDebounce<string>(daysTerm, 1500);
 
   useEffect(
     () => {
-      dispatch({
-        type: 'UPDATE_DAYS_WEEKLY',
-        payload: {
-          days: debouncedDaysTerm || 0,
-          employeeId: employee.id,
-          category,
-        },
-      });
+      const days = parseFloat(debouncedDaysTerm);
+      console.log('this is firing');
+
+      if (days !== employee.days) {
+        dispatch({
+          type: 'UPDATE_DAYS_WEEKLY',
+          payload: {
+            days: days || 0,
+            employeeId: employeeId,
+            employee,
+            category,
+            currentReport,
+          },
+        });
+      }
     },
     [debouncedDaysTerm] // Only call effect if debounced search term changes
   );
@@ -43,50 +54,58 @@ const WeeklyRow = ({ employee, formatter, category }: any) => {
         ></input>
       </div>
       <div className="w-[60%] text-salamat-black text-right">
-        {formatter.format(employee.currentTotal)}
+        {formatter.format(employee.total)}
       </div>
     </div>
   );
 };
 
-const renderWeekly = (projectData: any, weekData: any, formatter: any) => {
+const renderWeekly = (projectData: any, currentReport: any, formatter: any) => {
+  const employeeList = projectData.employees;
+
   return projectData.dataOrder.map((item: any, index: any) => {
     const category = projectData.categories[item.id];
     let categoryTotalWeek = 0;
-    const rows = category.order.map((e: any, index: any) => {
-      const emp = weekData.rateData[e.id];
-      categoryTotalWeek += emp.currentTotal;
+
+    const rows = category.order.map((employeeId: any, index2: any) => {
+      const employee = employeeList[employeeId];
+      // const employeeCurrentReport = employee.weeklyBreakdown[currentReport.id];
+      const employeeCurrentReport =
+        currentReport.employeePayBreakdown[employeeId];
+
+      categoryTotalWeek += employeeCurrentReport.total;
 
       return (
         <WeeklyRow
-          key={`weekly-${index}-${emp.id}`}
+          key={`weekly-${index2}-${employeeId}`}
           category={item}
-          employee={emp}
-          i={index}
+          employeeId={employeeId}
+          employee={employeeCurrentReport}
           formatter={formatter}
+          currentReport={currentReport}
         />
       );
     });
-
     return (
       <>
         <div
-          key={`${weekData.name}-${item.name}-${index}`}
+          key={`${currentReport.name}-${item.name}-${index}`}
           className="flex justify-between bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 "
         >
           <div className="w-full text-right">
             {formatter.format(categoryTotalWeek)}
           </div>
         </div>
-
         {rows}
       </>
     );
   });
 };
 
-export const WeeklyReport = ({ weekData, projectData }: any) => {
-  const currentReport = weekData[0];
+export const WeeklyReport = ({ projectData }: any) => {
+  const weeklyReportData = projectData.weeklyReports;
+
+  const currentReport = weeklyReportData[weeklyReportData.length - 1];
 
   const currencyFormatter = useNumberFormatter({
     maximumFractionDigits: 2,
@@ -95,25 +114,23 @@ export const WeeklyReport = ({ weekData, projectData }: any) => {
   });
 
   return (
-    <>
-      <div className="w-[25%] p-4">
-        <div className="flex flex-row justify-between h-16 items-center">
-          <div className="text-salamat-orange">
-            <ChevronLeftIcon height="30" width="30" />
-          </div>
-          <div className="uppercase font-bold">Week 1</div>
-          <div className="text-salamat-orange">
-            <ChevronRightIcon height="30" width="30" />
-          </div>
+    <div className="w-[25%] p-4">
+      <div className="flex flex-row justify-between h-16 items-center">
+        <div className="text-salamat-orange">
+          <ChevronLeftIcon height="30" width="30" />
         </div>
-        {/* Header of the table */}
-        <div className="flex justify-between bg-salamat-blue-dark text-salamat-white rounded-md px-2.5 py-1.5">
-          <div className="w-[40%] text-left">Days</div>
-          <div className="w-[40%] text-right">Total</div>
+        <div className="uppercase font-bold">Week 1</div>
+        <div className="text-salamat-orange">
+          <ChevronRightIcon height="30" width="30" />
         </div>
-
-        {renderWeekly(projectData, currentReport, currencyFormatter)}
       </div>
-    </>
+      {/* Header of the table */}
+      <div className="flex justify-between bg-salamat-blue-dark text-salamat-white rounded-md px-2.5 py-1.5">
+        <div className="w-[40%] text-left">Days</div>
+        <div className="w-[40%] text-right">Total</div>
+      </div>
+
+      {renderWeekly(projectData, currentReport, currencyFormatter)}
+    </div>
   );
 };
