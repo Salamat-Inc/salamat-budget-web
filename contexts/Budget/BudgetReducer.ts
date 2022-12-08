@@ -78,57 +78,65 @@ export const budgetReducer = (state: any, action: any) => {
     }
 
     case 'UPDATE_DAYS': {
-      // get the list of employees for the category passed
-      const updated = [...action.payload.category.order];
-
-      // find the employee whose days are being updated
-      const n = updated.find((e) => e.id === action.payload.employeeId);
-
-      // set the new days for the employee
-      n.days = action.payload.days;
+      console.log('here is the action', action.payload);
+      const { realDays, employee, employeeId, categoryId } = action.payload;
 
       // previous total of the employee
-      const prevTotal = n.total;
+      // const prevTotal = employee.totalActualSalary;
 
-      // previous total of the current category
-      const prevCategoryTotal = action.payload.category.total;
+      // update the employee information
+      // const updatedEmployeeData = {
+      //   ...employee,
+      // totalActualDays: parseFloat(realDays),
+      // };
+      // // get the list of employees for the category passed
+      // const updated = [...action.payload.category.order];
 
-      // set the new total for the employee
-      const employeeTotal = n.days * n.rate;
+      // // find the employee whose days are being updated
+      // const n = updated.find((e) => e.id === action.payload.employeeId);
 
-      let categoryTotal = prevCategoryTotal;
+      // // set the new days for the employee
+      // n.days = action.payload.days;
 
-      if (prevTotal !== employeeTotal) {
-        categoryTotal += Number((employeeTotal - prevTotal).toFixed(2));
-      }
+      // // previous total of the current category
+      // const prevCategoryTotal = action.payload.category.total;
 
-      const prevActualTotal = state.actualTotal;
-      let newActualTotal = prevActualTotal;
+      // // set the new total for the employee
+      // const employeeTotal = n.days * n.rate;
 
-      if (prevCategoryTotal !== categoryTotal) {
-        newActualTotal += Number(
-          (categoryTotal - prevCategoryTotal).toFixed(2)
-        );
-      }
+      // let categoryTotal = prevCategoryTotal;
 
-      const newOrder = action.payload.category.order.map((item: any) => {
-        if (item.id === action.payload.employeeId) {
-          item.total = employeeTotal;
-        }
-        return item;
-      });
+      // if (prevTotal !== employeeTotal) {
+      //   categoryTotal += Number((employeeTotal - prevTotal).toFixed(2));
+      // }
+
+      // const prevActualTotal = state.actualTotal;
+      // let newActualTotal = prevActualTotal;
+
+      // if (prevCategoryTotal !== categoryTotal) {
+      //   newActualTotal += Number(
+      //     (categoryTotal - prevCategoryTotal).toFixed(2)
+      //   );
+      // }
+
+      // const newOrder = action.payload.category.order.map((item: any) => {
+      //   if (item.id === action.payload.employeeId) {
+      //     item.total = employeeTotal;
+      //   }
+      //   return item;
+      // });
 
       return {
         ...state,
-        categories: {
-          ...state.categories,
-          [action.payload.categoryId]: {
-            ...state.categories[action.payload.category.id],
-            order: newOrder,
-            total: categoryTotal,
-          },
-        },
-        actualTotal: newActualTotal,
+        // categories: {
+        //   ...state.categories,
+        //   [action.payload.categoryId]: {
+        //     ...state.categories[action.payload.category.id],
+        //     order: newOrder,
+        //     total: categoryTotal,
+        //   },
+        // },
+        // actualTotal: newActualTotal,
       };
     }
 

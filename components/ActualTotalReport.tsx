@@ -4,37 +4,44 @@ import { useNumberFormatter } from 'hooks/numberFormatter';
 import { useDebounce } from 'hooks/useDebounce';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
 
-const LeftRow = ({ category, categoryId, name, data, formatter }: any) => {
-  const { dispatch } = useContext(BudgetContext);
+const LeftRow = ({
+  category,
+  categoryId,
+  name,
+  employee,
+  employeeId,
+  formatter,
+}: any) => {
+  // const { dispatch } = useContext(BudgetContext);
 
-  const [daysTerm, setDaysTerm] = useState<string>(data.days || '');
+  const [daysTerm, setDaysTerm] = useState<string>(employee.totalDays || '');
 
-  const debouncedDaysTerm: string = useDebounce<string>(daysTerm, 1500);
+  // const debouncedDaysTerm: string = useDebounce<string>(daysTerm, 1500);
 
-  useEffect(
-    () => {
-      const days = parseFloat(debouncedDaysTerm);
+  // useEffect(
+  //   () => {
+  //     const days = parseFloat(debouncedDaysTerm);
 
-      // only update the days if they are different from what is currently set
-      if (days !== data.days) {
-        dispatch({
-          type: 'UPDATE_DAYS',
-          payload: {
-            days: Number.isNaN(days) ? 0 : days,
-            realDays: debouncedDaysTerm,
-            employeeId: data.id,
-            category,
-            categoryId,
-          },
-        });
-      }
-    },
-    [debouncedDaysTerm] // Only call effect if debounced search term changes
-  );
+  //     // only update the days if they are different from what is currently set
+  //     if (days !== employee.days) {
+  //       dispatch({
+  //         type: 'UPDATE_DAYS',
+  //         payload: {
+  //           days: Number.isNaN(days) ? 0 : days,
+  //           realDays: debouncedDaysTerm,
+  //           employeeId,
+  //           // category,
+  //           categoryId,
+  //         },
+  //       });
+  //     }
+  //   },
+  //   [debouncedDaysTerm] // Only call effect if debounced search term changes
+  // );
 
-  const [rateTerm, setRateTerm] = useState<number>(data.rate);
+  const [rateTerm, setRateTerm] = useState<number>(employee.rate);
 
-  const debouncedRateTerm: number = useDebounce<number>(rateTerm, 1500);
+  // const debouncedRateTerm: number = useDebounce<number>(rateTerm, 1500);
 
   // useEffect(
   //   () => {
@@ -51,11 +58,8 @@ const LeftRow = ({ category, categoryId, name, data, formatter }: any) => {
   // );
 
   return (
-    <div
-      key={data.id}
-      className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1"
-    >
-      <div className="w-[45%] text-salamat-black">{name}</div>
+    <div className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1">
+      <div className="w-[45%] text-salamat-black">{employee.name}</div>
       <div className="w-[10%]">
         <input
           className="appearance-none bg-transparent border-none w-full text-salamat-black text-right mr-3 py-1 px-2 leading-tight focus:outline-none"
@@ -83,7 +87,7 @@ const LeftRow = ({ category, categoryId, name, data, formatter }: any) => {
         ></input>
       </div>
       <div className="w-[30%] text-salamat-black text-right">
-        {formatter.format(data.total)}
+        {formatter.format(employee.actualTotalSalary)}
       </div>
     </div>
   );
@@ -95,19 +99,24 @@ const renderActualTotals = (
   employees: any,
   formatter: any
 ) => {
+  // map over the designated order of the categories in order (rows)
   return order.map((item: any, index: number) => {
+    // get the current category and then iterate through all the items within a category
     const category = categories[item.id];
 
-    const rows = category.order.map((e: any, i: number) => {
-      const hire = employees[e.id];
-
+    // const rows = category.order.map((e: any, i: number) => {
+    const rows = category.order.map((categoryItem: any, i: number) => {
+      console.log('here is some order', employees[categoryItem]);
+      const employeeId = categoryItem;
       return (
         <LeftRow
-          category={category}
+          // category={category}
           categoryId={item.id}
-          key={`${e.id}-${i}-row-actual`}
-          name={hire.name}
-          data={e}
+          key={`${categoryItem}-${i}-row-actual`}
+          // name={hire.name}
+          // data={e}
+          employee={employees[categoryItem]}
+          employeeId={categoryItem}
           formatter={formatter}
         />
       );

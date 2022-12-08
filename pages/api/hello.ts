@@ -18,32 +18,38 @@ const mockData: any = {
       name: 'Directors',
       total: 300,
       order: [
-        {
-          id: 123,
-          type: 'employee',
-          rate: 100,
-          days: 2,
-          total: 200,
-          projectedTotal: 400,
-        },
-        {
-          id: 124,
-          type: 'employee',
-          rate: 100,
-          days: 1,
-          total: 100,
-          projectedTotal: 400,
-        },
+        // {
+        //   id: 123,
+        //   type: 'employee',
+        //   rate: 100,
+        //   days: 2,
+        //   total: 200,
+        //   projectedTotal: 400,
+        // },
+        // {
+        //   id: 124,
+        //   type: 'employee',
+        //   rate: 100,
+        //   days: 1,
+        //   total: 100,
+        //   projectedTotal: 400,
+        // },
+        123,
       ],
     },
   },
   employees: {
     123: {
       name: 'George Lucas',
+      rate: 100,
+      totalDays: 2,
+      actualTotalSalary: 200,
+      projectedTotalSalary: 400,
+      weeklyBreakdown: {},
     },
-    124: {
-      name: 'John Doe',
-    },
+    // 124: {
+    //   name: 'John Doe',
+    // },
   },
   weeklyReports: [
     {
@@ -54,11 +60,11 @@ const mockData: any = {
           currentTotal: 100,
           totalToDate: 100,
         },
-        124: {
-          days: 1,
-          currentTotal: 200,
-          totalToDate: 200,
-        },
+        // 124: {
+        //   days: 1,
+        //   currentTotal: 200,
+        //   totalToDate: 200,
+        // },
       },
     },
   ],
