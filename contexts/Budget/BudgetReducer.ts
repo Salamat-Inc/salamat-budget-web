@@ -166,56 +166,59 @@ export const budgetReducer = (state: any, action: any) => {
 
     case 'UPDATE_DAYS_WEEKLY': {
       console.log('updating the weekly days', action.payload);
-      const { employeeId, employee, days, currentReport, category } =
-        action.payload;
+      const { employeeId, days, currentReport, category } = action.payload;
 
-      // get the current Employee Data
+      // get the current Employee Data, rate, and total days
       const employeeData = state.employees[employeeId];
-
       const employeeRate = employeeData.rate;
       let employeeDays = employeeData.totalDays;
 
-      // calculate the new total based on the updated days for this week
+      // calculate the new total for this week based on the updated days value
       const updatedEmployeeWeeklyTotal = employeeRate * days;
 
-      console.log('updatedEmployeeWeeklyTotal', updatedEmployeeWeeklyTotal);
-
+      // get current week's data of the employee who's days have changed
       const currentEmployeeWeeklyData =
         currentReport.employeePayBreakdown[employeeId];
 
       const prevWeeklyDays = currentEmployeeWeeklyData.days;
       const currentWeeklyDays = days;
 
+      // calculate the difference of this week's days for this employee
       const diffOfDays = Number(currentWeeklyDays - prevWeeklyDays);
 
+      // add or subtract the difference from the total days of the current employee
       employeeDays += diffOfDays;
 
+      // calculate the total that needs to be added or subtracted from the current employee total
       const diffEmployeeTotal = employeeRate * diffOfDays;
+
+      // get the updated actual total salary of the current employee
       let updatedEmployeeTotal =
         employeeData.actualTotalSalary + diffEmployeeTotal;
-      console.log('yolo diff', updatedEmployeeTotal);
 
+      // get the current Category and add or subtract the difference in the employee total to the category total
+      const categoryData = state.categories[category.id];
+      const updatedCategoryTotal = (categoryData.total += diffEmployeeTotal);
+
+      // get the updated employee weekly data
       const updatedEmployeeWeeklyData = {
         ...currentEmployeeWeeklyData,
         days,
         total: updatedEmployeeWeeklyTotal,
       };
 
-      const categoryData = state.categories[category.id];
-
-      const updatedCategoryTotal = (categoryData.total += diffEmployeeTotal);
-
+      // get the updated employee overall data
       const updatedEmployeeData = {
         ...employeeData,
         totalDays: employeeDays,
         actualTotalSalary: updatedEmployeeTotal,
       };
 
+      // get the updated total for the whole report
       let updatedReportTotal = currentReport.total;
       updatedReportTotal += Number(
-        employee.WeeklyTotal - updatedEmployeeWeeklyTotal
+        currentEmployeeWeeklyData.total - updatedEmployeeWeeklyTotal
       ).toFixed(2);
-      console.log('here is the updatedEmployeeData', updatedEmployeeData);
 
       return {
         ...state,

@@ -5,7 +5,7 @@ import { useDebounce } from 'hooks/useDebounce';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
 
 const WeeklyRow = ({
-  employee,
+  employeeWeeklyData,
   employeeId,
   formatter,
   category,
@@ -13,7 +13,9 @@ const WeeklyRow = ({
 }: any) => {
   const { dispatch } = useContext(BudgetContext);
 
-  const [daysTerm, setDaysTerm] = useState<string>(employee.days.toString());
+  const [daysTerm, setDaysTerm] = useState<string>(
+    employeeWeeklyData.days.toString()
+  );
 
   const debouncedDaysTerm: string = useDebounce<string>(daysTerm, 1500);
 
@@ -22,13 +24,12 @@ const WeeklyRow = ({
       const days = parseFloat(debouncedDaysTerm);
       console.log('this is firing');
 
-      if (days !== employee.days) {
+      if (days !== employeeWeeklyData.days) {
         dispatch({
           type: 'UPDATE_DAYS_WEEKLY',
           payload: {
             days: days || 0,
-            employeeId: employeeId,
-            employee,
+            employeeId,
             category,
             currentReport,
           },
@@ -48,13 +49,13 @@ const WeeklyRow = ({
           aria-label="days worked"
           onFocus={(e) => e.target.select()}
           onChange={(e) => {
-            setDaysTerm(parseFloat(e.target.value) || undefined);
+            setDaysTerm(e.target.value);
           }}
           value={daysTerm}
         ></input>
       </div>
       <div className="w-[60%] text-salamat-black text-right">
-        {formatter.format(employee.total)}
+        {formatter.format(employeeWeeklyData.total)}
       </div>
     </div>
   );
@@ -68,19 +69,16 @@ const renderWeekly = (projectData: any, currentReport: any, formatter: any) => {
     let categoryTotalWeek = 0;
 
     const rows = category.order.map((employeeId: any, index2: any) => {
-      const employee = employeeList[employeeId];
-      // const employeeCurrentReport = employee.weeklyBreakdown[currentReport.id];
-      const employeeCurrentReport =
-        currentReport.employeePayBreakdown[employeeId];
+      const employeeWeeklyData = currentReport.employeePayBreakdown[employeeId];
 
-      categoryTotalWeek += employeeCurrentReport.total;
+      categoryTotalWeek += employeeWeeklyData.total;
 
       return (
         <WeeklyRow
           key={`weekly-${index2}-${employeeId}`}
           category={item}
           employeeId={employeeId}
-          employee={employeeCurrentReport}
+          employeeWeeklyData={employeeWeeklyData}
           formatter={formatter}
           currentReport={currentReport}
         />
