@@ -22,7 +22,6 @@ const WeeklyRow = ({
   useEffect(
     () => {
       const days = parseFloat(debouncedDaysTerm);
-      console.log('this is firing');
 
       if (days !== employeeWeeklyData.days) {
         dispatch({
@@ -62,13 +61,12 @@ const WeeklyRow = ({
 };
 
 const renderWeekly = (projectData: any, currentReport: any, formatter: any) => {
-  const employeeList = projectData.employees;
-
   return projectData.dataOrder.map((item: any, index: any) => {
     const category = projectData.categories[item.id];
     let categoryTotalWeek = 0;
 
     const rows = category.order.map((employeeId: any, index2: any) => {
+      console.log('here is the employeeid', employeeId, currentReport);
       const employeeWeeklyData = currentReport.employeePayBreakdown[employeeId];
 
       categoryTotalWeek += employeeWeeklyData.total;
@@ -100,10 +98,9 @@ const renderWeekly = (projectData: any, currentReport: any, formatter: any) => {
   });
 };
 
-export const WeeklyReport = ({ projectData }: any) => {
+export const WeeklyReport = ({ projectData, activeWeeklyReport }: any) => {
   const weeklyReportData = projectData.weeklyReports;
-
-  const currentReport = weeklyReportData[weeklyReportData.length - 1];
+  const currentReport = weeklyReportData[activeWeeklyReport];
 
   const currencyFormatter = useNumberFormatter({
     maximumFractionDigits: 2,

@@ -12,33 +12,6 @@ const LeftRow = ({
   employeeId,
   formatter,
 }: any) => {
-  // const { dispatch } = useContext(BudgetContext);
-
-  const [daysTerm, setDaysTerm] = useState<string>(employee.totalDays || '');
-
-  // const debouncedDaysTerm: string = useDebounce<string>(daysTerm, 1500);
-
-  // useEffect(
-  //   () => {
-  //     const days = parseFloat(debouncedDaysTerm);
-
-  //     // only update the days if they are different from what is currently set
-  //     if (days !== employee.days) {
-  //       dispatch({
-  //         type: 'UPDATE_DAYS',
-  //         payload: {
-  //           days: Number.isNaN(days) ? 0 : days,
-  //           realDays: debouncedDaysTerm,
-  //           employeeId,
-  //           // category,
-  //           categoryId,
-  //         },
-  //       });
-  //     }
-  //   },
-  //   [debouncedDaysTerm] // Only call effect if debounced search term changes
-  // );
-
   const [rateTerm, setRateTerm] = useState<number>(employee.rate);
 
   // const debouncedRateTerm: number = useDebounce<number>(rateTerm, 1500);
@@ -61,17 +34,6 @@ const LeftRow = ({
     <div className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1">
       <div className="w-[45%] text-salamat-black">{employee.name}</div>
       <div className="w-[10%] text-salamat-black text-right">
-        {/* <input
-          className="appearance-none bg-transparent border-none w-full text-salamat-black text-right mr-3 py-1 px-2 leading-tight focus:outline-none"
-          type="number"
-          placeholder="0"
-          aria-label="days worked"
-          onFocus={(e) => e.target.select()}
-          onChange={(e) => {
-            setDaysTerm(e.target.value);
-          }}
-          value={daysTerm}
-        ></input> */}
         {employee.totalDays}
       </div>
       <div className="w-[15%] flex flex-row items-baseline text-salamat-black text-right relative">
@@ -105,17 +67,12 @@ const renderActualTotals = (
     // get the current category and then iterate through all the items within a category
     const category = categories[item.id];
 
-    // const rows = category.order.map((e: any, i: number) => {
     const rows = category.order.map((categoryItem: any, i: number) => {
       console.log('here is some order', employees[categoryItem]);
-      const employeeId = categoryItem;
       return (
         <LeftRow
-          // category={category}
           categoryId={item.id}
           key={`${categoryItem}-${i}-row-actual`}
-          // name={hire.name}
-          // data={e}
           employee={employees[categoryItem]}
           employeeId={categoryItem}
           formatter={formatter}

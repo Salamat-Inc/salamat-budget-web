@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import { SalamatHeader } from 'stories/SalamatHeader';
@@ -11,7 +11,9 @@ import { BudgetContext } from 'contexts/Budget/BudgetContext';
 
 const Home: NextPage = () => {
   const { project } = useContext(BudgetContext);
-
+  const [activeWeeklyReport, setActiveWeeklyReport] = useState<number>(
+    !project ? 0 : project.weeklyReports.length - 1
+  );
   return (
     <>
       <SalamatHeader />
@@ -27,9 +29,16 @@ const Home: NextPage = () => {
                 <Button label="Share" size="extra-small" twClasses="ml-4" />
               </div>
             </div>
-            <div className="px-5">{project && <Table project={project} />}</div>
+            <div className="px-5">
+              {project && (
+                <Table
+                  project={project}
+                  activeWeeklyReport={activeWeeklyReport}
+                />
+              )}
+            </div>
           </main>
-          <Footer project={project} />
+          <Footer project={project} activeWeeklyReport={activeWeeklyReport} />
         </>
       ) : null}
     </>

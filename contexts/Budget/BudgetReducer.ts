@@ -215,13 +215,19 @@ export const budgetReducer = (state: any, action: any) => {
       };
 
       // get the updated total for the whole report
-      let updatedReportTotal = currentReport.total;
-      updatedReportTotal += Number(
-        currentEmployeeWeeklyData.total - updatedEmployeeWeeklyTotal
-      ).toFixed(2);
+      let updatedReportTotal = currentReport.weeklyTotal;
+
+      if (updatedEmployeeWeeklyTotal !== currentEmployeeWeeklyData.total) {
+        updatedReportTotal += Number(
+          (
+            updatedEmployeeWeeklyTotal - currentEmployeeWeeklyData.total
+          ).toFixed(2)
+        );
+      }
 
       return {
         ...state,
+        actualTotal: state.actualTotal + diffEmployeeTotal,
         categories: {
           ...state.categories,
           [category.id]: {
@@ -242,7 +248,7 @@ export const budgetReducer = (state: any, action: any) => {
             ...currentReport,
             weeklyTotal: updatedReportTotal,
             employeePayBreakdown: {
-              ...currentReport.employeePayBreakDown,
+              ...currentReport.employeePayBreakdown,
               [employeeId]: updatedEmployeeWeeklyData,
             },
           };
