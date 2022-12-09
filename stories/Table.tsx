@@ -30,7 +30,7 @@ export const Table = ({
       />
 
       {/* Render projected totals */}
-      {/* <ProjectedTotalReport project={project} /> */}
+      <ProjectedTotalReport project={project} />
     </div>
   );
 };

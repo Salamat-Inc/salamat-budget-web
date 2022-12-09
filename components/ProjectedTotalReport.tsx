@@ -8,36 +8,33 @@ const renderProjectedAmount = (
 ) => {
   return order.map((item: any, index: any) => {
     const category = projectData.categories[item.id];
-    let categoryTotalToDate = 0;
+    const { projectedCategoryTotal } = category;
 
     const rows = category.order.map((row: any) => {
-      categoryTotalToDate += row.projectedTotal;
+      const employee = projectData.employees[row];
 
       return (
         <div
-          key={`projected-total-${row.id}`}
+          key={`projected-total-${row}`}
           className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1"
         >
           <div className="w-full text-salamat-black text-right">
-            {formatter.format(row.projectedTotal)}
+            {formatter.format(employee.projectedTotalSalary)}
           </div>
         </div>
       );
     });
 
     return (
-      <>
-        <div
-          key={`${item.name}-${index}`}
-          className="flex justify-between bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 "
-        >
+      <React.Fragment key={`${item.name}-${index}`}>
+        <div className="flex justify-between bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 ">
           <div className="w-full text-right">
-            {formatter.format(categoryTotalToDate)}
+            {formatter.format(projectedCategoryTotal)}
           </div>
         </div>
 
         {rows}
-      </>
+      </React.Fragment>
     );
   });
 };

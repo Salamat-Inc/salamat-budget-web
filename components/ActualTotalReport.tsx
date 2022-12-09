@@ -68,7 +68,6 @@ const renderActualTotals = (
     const category = categories[item.id];
 
     const rows = category.order.map((categoryItem: any, i: number) => {
-      console.log('here is some order', employees[categoryItem]);
       return (
         <LeftRow
           categoryId={item.id}
