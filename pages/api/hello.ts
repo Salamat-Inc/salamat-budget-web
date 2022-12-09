@@ -17,6 +17,7 @@ const mockData: any = {
     1: {
       name: 'Directors',
       total: 450,
+      projectedCategoryTotal: 800,
       order: [123, 124],
     },
   },
@@ -53,7 +54,6 @@ const mockData: any = {
       },
     },
   ],
-  projectedTotals: {},
 };
 
 export default function handler(

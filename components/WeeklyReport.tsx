@@ -66,7 +66,6 @@ const renderWeekly = (projectData: any, currentReport: any, formatter: any) => {
     let categoryTotalWeek = 0;
 
     const rows = category.order.map((employeeId: any, index2: any) => {
-      console.log('here is the employeeid', employeeId, currentReport);
       const employeeWeeklyData = currentReport.employeePayBreakdown[employeeId];
 
       categoryTotalWeek += employeeWeeklyData.total;
@@ -83,17 +82,14 @@ const renderWeekly = (projectData: any, currentReport: any, formatter: any) => {
       );
     });
     return (
-      <>
-        <div
-          key={`${currentReport.name}-${item.name}-${index}`}
-          className="flex justify-between bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 "
-        >
+      <React.Fragment key={`${currentReport.name}-${item.name}-${index}`}>
+        <div className="flex justify-between bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 ">
           <div className="w-full text-right">
             {formatter.format(categoryTotalWeek)}
           </div>
         </div>
         {rows}
-      </>
+      </React.Fragment>
     );
   });
 };

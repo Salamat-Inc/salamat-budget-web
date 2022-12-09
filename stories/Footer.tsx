@@ -1,13 +1,6 @@
 import React from 'react';
 import { useNumberFormatter } from 'hooks/numberFormatter';
 
-const calculateTotal = (employees: any) => {
-  let total = 0;
-  employees.forEach((employee: any) => (total += employee.total));
-
-  return total;
-};
-
 interface Props {
   project?: any;
   activeWeeklyReport: number;
@@ -41,10 +34,10 @@ export const Footer = ({ project, activeWeeklyReport }: Props) => {
       </div>
 
       {/* projected totals box */}
-      {/* <div className="w-[25%] py-4 px-8 text-right bg-salamat-black text-salamat-white">
+      <div className="w-[25%] py-4 px-8 text-right bg-salamat-black text-salamat-white">
         <div className="uppercase">Projected Budget:</div>
         <div>{currencyFormatter.format(project.projectedTotal)}</div>
-      </div> */}
+      </div>
     </div>
   );
 };

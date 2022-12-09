@@ -1,13 +1,11 @@
 /**
  * SCENARIOS WHERE THE BUDGET IS CHANGED
  *
- * update employee days
  * update employee rate
  * update employee days on a specific week
- * update employee rate on a specific week
+ * deleting an employee
+ * adding an employee
  */
-
-import { WeeklyReport } from 'components/WeeklyReport';
 
 export const CREATE_EMPLOYEE = 'CREATE_EMPLOYEE';
 export const SET_PROJECT = 'SET_PROJECT';
@@ -80,7 +78,6 @@ export const budgetReducer = (state: any, action: any) => {
     }
 
     case 'UPDATE_DAYS': {
-      console.log('here is the action', action.payload);
       const { realDays, employee, employeeId, categoryId } = action.payload;
 
       // previous total of the employee
@@ -165,7 +162,6 @@ export const budgetReducer = (state: any, action: any) => {
     }
 
     case 'UPDATE_DAYS_WEEKLY': {
-      console.log('updating the weekly days', action.payload);
       const { employeeId, days, currentReport, category } = action.payload;
 
       // get the current Employee Data, rate, and total days
