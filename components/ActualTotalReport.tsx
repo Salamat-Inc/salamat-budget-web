@@ -93,7 +93,11 @@ const renderActualTotals = (
   });
 };
 
-export const ActualTotalReport = ({ project, data }: any) => {
+export const ActualTotalReport = ({
+  project,
+  data,
+  setShowEmployeeModal,
+}: any) => {
   const { dispatch } = useContext(BudgetContext);
 
   const currencyFormatter = useNumberFormatter({
@@ -114,15 +118,10 @@ export const ActualTotalReport = ({ project, data }: any) => {
       <div className="flex justify-between bg-salamat-blue-dark text-salamat-white rounded-md px-2.5 py-1.5">
         <div className="w-[45%] flex flex-row">
           <button
-            onClick={() =>
-              dispatch({
-                type: 'CREATE_EMPLOYEE',
-                payload: {
-                  name: 'Jane Doe',
-                  category: 1,
-                },
-              })
-            }
+            onClick={() => {
+              console.log('going to try and do this thing');
+              setShowEmployeeModal(true);
+            }}
           >
             <PlusCircleIcon height="22" width="22" />
           </button>

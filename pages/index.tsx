@@ -8,12 +8,15 @@ import { Button } from 'stories/Button';
 import { Table } from 'stories/Table';
 import { Data } from 'interfaces/ApiData';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
+import { AddEmployeeModal } from 'components/AddEmployeeModal';
 
 const Home: NextPage = () => {
   const { project } = useContext(BudgetContext);
   const [activeWeeklyReport, setActiveWeeklyReport] = useState<number>(
     !project ? 0 : project.weeklyReports.length - 1
   );
+  const [showEmployeeModal, setShowEmployeeModal] = useState(false);
+
   return (
     <>
       <SalamatHeader />
@@ -34,11 +37,18 @@ const Home: NextPage = () => {
                 <Table
                   project={project}
                   activeWeeklyReport={activeWeeklyReport}
+                  setShowEmployeeModal={setShowEmployeeModal}
                 />
               )}
             </div>
           </main>
           <Footer project={project} activeWeeklyReport={activeWeeklyReport} />
+          {showEmployeeModal && (
+            <AddEmployeeModal
+              open={showEmployeeModal}
+              setOpen={setShowEmployeeModal}
+            />
+          )}
         </>
       ) : null}
     </>

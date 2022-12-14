@@ -19,124 +19,55 @@ export const budgetReducer = (state: any, action: any) => {
       return action.payload;
     }
     case CREATE_EMPLOYEE: {
-      const categoryId = action.payload.category;
-      let orderItem;
-      // add category to the order
-      if (!state.categories[categoryId]) {
-        const id = idState++;
-        orderItem = { id, name: categoryId };
-      }
-
-      const updatedOrderItems = [...state.dataOrder];
-      if (orderItem) {
-        updatedOrderItems.push(orderItem);
-      }
-
-      const employeeId = employeeIdState++;
-
-      const employee = {
-        id: employeeId,
-        type: 'employee',
-        rate: null,
-        days: null,
-        total: null,
-      };
-
-      const updatedCategoryOrder = [...state.categories[categoryId].order];
-
-      updatedCategoryOrder.push(employee);
-
-      const updatedWeeklyReports = state.weeklyReports.map((report: any) => {
-        report.rateData = {
-          ...report.rateData,
-          [employeeId]: {
-            days: null,
-            currentTotal: null,
-            totalToDate: null,
-          },
-        };
-      });
-      const n = {
-        ...state,
-        dataOrder: updatedOrderItems,
-        categories: {
-          ...state.categories,
-          [categoryId]: {
-            order: updatedCategoryOrder,
-          },
-        },
-        // weeklyReports: updatedWeeklyReports,
-        employees: {
-          ...state.employees,
-          [employeeId]: {
-            name: action.payload.name,
-          },
-        },
-      };
-
-      return n;
-    }
-
-    case 'UPDATE_DAYS': {
-      const { realDays, employee, employeeId, categoryId } = action.payload;
-
-      // previous total of the employee
-      // const prevTotal = employee.totalActualSalary;
-
-      // update the employee information
-      // const updatedEmployeeData = {
-      //   ...employee,
-      // totalActualDays: parseFloat(realDays),
+      // const categoryId = action.payload.category;
+      // let orderItem;
+      // // add category to the order
+      // if (!state.categories[categoryId]) {
+      //   const id = idState++;
+      //   orderItem = { id, name: categoryId };
+      // }
+      // const updatedOrderItems = [...state.dataOrder];
+      // if (orderItem) {
+      //   updatedOrderItems.push(orderItem);
+      // }
+      // const employeeId = employeeIdState++;
+      // const employee = {
+      //   id: employeeId,
+      //   type: 'employee',
+      //   rate: null,
+      //   days: null,
+      //   total: null,
       // };
-      // // get the list of employees for the category passed
-      // const updated = [...action.payload.category.order];
-
-      // // find the employee whose days are being updated
-      // const n = updated.find((e) => e.id === action.payload.employeeId);
-
-      // // set the new days for the employee
-      // n.days = action.payload.days;
-
-      // // previous total of the current category
-      // const prevCategoryTotal = action.payload.category.total;
-
-      // // set the new total for the employee
-      // const employeeTotal = n.days * n.rate;
-
-      // let categoryTotal = prevCategoryTotal;
-
-      // if (prevTotal !== employeeTotal) {
-      //   categoryTotal += Number((employeeTotal - prevTotal).toFixed(2));
-      // }
-
-      // const prevActualTotal = state.actualTotal;
-      // let newActualTotal = prevActualTotal;
-
-      // if (prevCategoryTotal !== categoryTotal) {
-      //   newActualTotal += Number(
-      //     (categoryTotal - prevCategoryTotal).toFixed(2)
-      //   );
-      // }
-
-      // const newOrder = action.payload.category.order.map((item: any) => {
-      //   if (item.id === action.payload.employeeId) {
-      //     item.total = employeeTotal;
-      //   }
-      //   return item;
+      // const updatedCategoryOrder = [...state.categories[categoryId].order];
+      // updatedCategoryOrder.push(employee);
+      // const updatedWeeklyReports = state.weeklyReports.map((report: any) => {
+      //   report.rateData = {
+      //     ...report.rateData,
+      //     [employeeId]: {
+      //       days: null,
+      //       currentTotal: null,
+      //       totalToDate: null,
+      //     },
+      //   };
       // });
-
-      return {
-        ...state,
-        // categories: {
-        //   ...state.categories,
-        //   [action.payload.categoryId]: {
-        //     ...state.categories[action.payload.category.id],
-        //     order: newOrder,
-        //     total: categoryTotal,
-        //   },
-        // },
-        // actualTotal: newActualTotal,
-      };
+      // const n = {
+      //   ...state,
+      //   dataOrder: updatedOrderItems,
+      //   categories: {
+      //     ...state.categories,
+      //     [categoryId]: {
+      //       order: updatedCategoryOrder,
+      //     },
+      //   },
+      //   // weeklyReports: updatedWeeklyReports,
+      //   employees: {
+      //     ...state.employees,
+      //     [employeeId]: {
+      //       name: action.payload.name,
+      //     },
+      //   },
+      // };
+      // return n;
     }
 
     case 'UPDATE_RATE': {
