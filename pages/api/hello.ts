@@ -18,7 +18,14 @@ const mockData: any = {
       name: 'Directors',
       total: 450,
       projectedCategoryTotal: 800,
-      order: [123, 124],
+      order: [123, 124, 11],
+    },
+  },
+  subCategories: {
+    11: {
+      total: 200,
+      projectedSubCategoryTotal: 200,
+      order: [{ id: 125, type: 'employee' }],
     },
   },
   employees: {

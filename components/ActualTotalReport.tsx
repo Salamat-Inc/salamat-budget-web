@@ -5,6 +5,10 @@ import { useDebounce } from 'hooks/useDebounce';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
 import CurrencyInput from 'react-currency-input-field';
 
+const subCategoryRow = () => {
+  return <div>This is a subcategory</div>;
+};
+
 const LeftRow = ({
   category,
   categoryId,
