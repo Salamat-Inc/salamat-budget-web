@@ -45,7 +45,7 @@ export const budgetReducer = (state: any, action: any) => {
       const category = 1;
       const updatedCategories = [
         ...state.categories[category].order,
-        employeeId,
+        { id: employeeId, type: 'employee' },
       ];
 
       // ensure the all weekly reports are updated with the new employee
@@ -82,6 +82,7 @@ export const budgetReducer = (state: any, action: any) => {
 
     case 'UPDATE_RATE': {
       const { employeeId, rate, categoryId } = action.payload;
+      console.log('inside of update rate', employeeId, rate, categoryId);
 
       // get the employee
       const employee = state.employees[employeeId];

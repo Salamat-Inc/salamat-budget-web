@@ -18,11 +18,16 @@ const mockData: any = {
       name: 'Directors',
       total: 450,
       projectedCategoryTotal: 800,
-      order: [123, 124, 11],
+      order: [
+        { id: 123, type: 'employee' },
+        { id: 124, type: 'employee' },
+        { id: 11, type: 'subcategory' },
+      ],
     },
   },
   subCategories: {
     11: {
+      name: 'Director Group 1',
       total: 200,
       projectedSubCategoryTotal: 200,
       order: [{ id: 125, type: 'employee' }],
@@ -43,6 +48,13 @@ const mockData: any = {
       actualTotalSalary: 150,
       projectedTotalSalary: 400,
     },
+    125: {
+      name: 'Mike Tyson',
+      rate: 30,
+      totalDays: 5,
+      actualTotalSalary: 150,
+      projectedTotalSalary: 400,
+    },
   },
   weeklyReports: [
     {
@@ -57,6 +69,13 @@ const mockData: any = {
         124: {
           days: 1,
           total: 50,
+        },
+        125: {
+          days: 2,
+          total: 60,
+        },
+        11: {
+          total: 60,
         },
       },
     },
