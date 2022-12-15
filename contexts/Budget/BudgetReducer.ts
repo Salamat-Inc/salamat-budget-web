@@ -81,24 +81,84 @@ export const budgetReducer = (state: any, action: any) => {
     }
 
     case 'UPDATE_RATE': {
-      // get the order for the category being updated
-      // const updated = [...state.categories[action.payload.category.id].order];
-      const updated = [...action.payload.category.order];
+      const { employeeId, rate, categoryId } = action.payload;
 
-      // find the employee id within the list of rows
-      const n = updated.find((e) => e.id === action.payload.employeeId);
+      // get the employee
+      const employee = state.employees[employeeId];
 
-      // set the new rate
-      n.rate = action.payload.rate;
+      // get the current salary of the employee
+      const currentSalary = employee.actualTotalSalary;
 
-      // calculate the actual total for the employee
-      n.total = n.days * n.rate;
+      // get new salary for the employee
+      const updatedSalary = parseFloat((rate * employee.totalDays).toFixed(2));
 
-      // set the new actual total within the actual total amount
-      // TODO
+      // get the difference between new and old salary
+      const salaryDifference = updatedSalary - currentSalary;
+
+      // get currentCategory total
+      const category = state.categories[categoryId];
+      const currentCategoryTotal = category.total;
+      const updatedCategoryTotal = currentCategoryTotal + salaryDifference;
+
+      // update the payBreakdown of weekly reports
+      const weeklyReports = state.weeklyReports;
+      const updatedWeeklyReports = weeklyReports.map((report: any) => {
+        // get previous weekly total
+        let updatedWeeklyTotal = report.weeklyTotal;
+
+        // get list of employee payments for the week
+        const employeePayBreakdown = report.employeePayBreakdown;
+        // get the current employee payments
+        const currentEmployeeBreakdown = employeePayBreakdown[employeeId];
+
+        // get the difference for the week
+        const updatedEmployeeWeeklySalary = Number(
+          (currentEmployeeBreakdown.days * rate).toFixed(2)
+        );
+
+        // update the difference
+        updatedWeeklyTotal +=
+          updatedEmployeeWeeklySalary - currentEmployeeBreakdown.total;
+
+        // create the new updated pay breakdown
+        const updatedEmployeePayBreakdown = {
+          ...employeePayBreakdown,
+          [employeeId]: {
+            ...currentEmployeeBreakdown,
+            total: updatedEmployeeWeeklySalary,
+          },
+        };
+
+        // get the new updated report
+        return {
+          ...report,
+          weeklyTotal: updatedWeeklyTotal,
+          employeePayBreakdown: updatedEmployeePayBreakdown,
+        };
+      });
+
+      const updatedEmployee = {
+        ...employee,
+        rate,
+        actualTotalSalary: updatedSalary,
+      };
 
       return {
         ...state,
+        categories: {
+          ...state.categories,
+          [categoryId]: {
+            ...state.categories[categoryId],
+            total: updatedCategoryTotal,
+          },
+        },
+        employees: {
+          ...state.employees,
+          [employeeId]: {
+            ...updatedEmployee,
+          },
+        },
+        weeklyReports: updatedWeeklyReports,
       };
     }
 
