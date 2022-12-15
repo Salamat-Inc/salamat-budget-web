@@ -8,6 +8,13 @@ export const AddEmployeeModal = ({ open, setOpen }: any) => {
   const { dispatch } = useContext(BudgetContext);
 
   const handleOnSubmit = (payload: any) => {
+    if (payload.jobType === 'subcategory') {
+      dispatch({
+        type: 'ADD_SUBCATEGORY',
+        payload,
+      });
+    }
+
     dispatch({
       type: 'ADD_EMPLOYEE',
       payload,

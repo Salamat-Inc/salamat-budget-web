@@ -119,7 +119,6 @@ export const ActualTotalReport = ({
         <div className="w-[45%] flex flex-row">
           <button
             onClick={() => {
-              console.log('going to try and do this thing');
               setShowEmployeeModal(true);
             }}
           >
