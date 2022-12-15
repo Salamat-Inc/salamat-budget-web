@@ -7,6 +7,8 @@
  * adding an employee
  */
 
+import { report } from 'process';
+
 export const CREATE_EMPLOYEE = 'CREATE_EMPLOYEE';
 export const SET_PROJECT = 'SET_PROJECT';
 
@@ -18,124 +20,63 @@ export const budgetReducer = (state: any, action: any) => {
     case SET_PROJECT: {
       return action.payload;
     }
-    case CREATE_EMPLOYEE: {
-      const categoryId = action.payload.category;
-      let orderItem;
-      // add category to the order
-      if (!state.categories[categoryId]) {
-        const id = idState++;
-        orderItem = { id, name: categoryId };
-      }
+    case 'ADD_EMPLOYEE': {
+      const { jobType, memberName, teamRole } = action.payload;
 
-      const updatedOrderItems = [...state.dataOrder];
-      if (orderItem) {
-        updatedOrderItems.push(orderItem);
-      }
+      // get the employee id
+      const employeeId = 400;
 
-      const employeeId = employeeIdState++;
-
+      // generate the new employee object
       const employee = {
-        id: employeeId,
-        type: 'employee',
-        rate: null,
-        days: null,
-        total: null,
+        name: memberName,
+        rate: 0,
+        totalDays: 0,
+        actualTotalSalary: 0,
+        projectedTotalSalary: 0,
       };
 
-      const updatedCategoryOrder = [...state.categories[categoryId].order];
-
-      updatedCategoryOrder.push(employee);
-
-      const updatedWeeklyReports = state.weeklyReports.map((report: any) => {
-        report.rateData = {
-          ...report.rateData,
-          [employeeId]: {
-            days: null,
-            currentTotal: null,
-            totalToDate: null,
-          },
-        };
-      });
-      const n = {
-        ...state,
-        dataOrder: updatedOrderItems,
-        categories: {
-          ...state.categories,
-          [categoryId]: {
-            order: updatedCategoryOrder,
-          },
-        },
-        // weeklyReports: updatedWeeklyReports,
-        employees: {
-          ...state.employees,
-          [employeeId]: {
-            name: action.payload.name,
-          },
-        },
+      // add employee to list of employees
+      const updatedEmployees = {
+        ...state.employees,
+        [employeeId]: employee,
       };
 
-      return n;
-    }
+      // add employee to the correct category
+      const category = 1;
+      const updatedCategories = [
+        ...state.categories[category].order,
+        employeeId,
+      ];
 
-    case 'UPDATE_DAYS': {
-      const { realDays, employee, employeeId, categoryId } = action.payload;
-
-      // previous total of the employee
-      // const prevTotal = employee.totalActualSalary;
-
-      // update the employee information
-      // const updatedEmployeeData = {
-      //   ...employee,
-      // totalActualDays: parseFloat(realDays),
-      // };
-      // // get the list of employees for the category passed
-      // const updated = [...action.payload.category.order];
-
-      // // find the employee whose days are being updated
-      // const n = updated.find((e) => e.id === action.payload.employeeId);
-
-      // // set the new days for the employee
-      // n.days = action.payload.days;
-
-      // // previous total of the current category
-      // const prevCategoryTotal = action.payload.category.total;
-
-      // // set the new total for the employee
-      // const employeeTotal = n.days * n.rate;
-
-      // let categoryTotal = prevCategoryTotal;
-
-      // if (prevTotal !== employeeTotal) {
-      //   categoryTotal += Number((employeeTotal - prevTotal).toFixed(2));
-      // }
-
-      // const prevActualTotal = state.actualTotal;
-      // let newActualTotal = prevActualTotal;
-
-      // if (prevCategoryTotal !== categoryTotal) {
-      //   newActualTotal += Number(
-      //     (categoryTotal - prevCategoryTotal).toFixed(2)
-      //   );
-      // }
-
-      // const newOrder = action.payload.category.order.map((item: any) => {
-      //   if (item.id === action.payload.employeeId) {
-      //     item.total = employeeTotal;
-      //   }
-      //   return item;
-      // });
+      // ensure the all weekly reports are updated with the new employee
+      const updatedWeeklyReports = state.weeklyReports.map((report: any) => ({
+        ...report,
+        employeePayBreakdown: {
+          ...report.employeePayBreakdown,
+          [employeeId]: {
+            days: 0,
+            total: 0,
+          },
+        },
+      }));
 
       return {
         ...state,
-        // categories: {
-        //   ...state.categories,
-        //   [action.payload.categoryId]: {
-        //     ...state.categories[action.payload.category.id],
-        //     order: newOrder,
-        //     total: categoryTotal,
-        //   },
-        // },
-        // actualTotal: newActualTotal,
+        categories: {
+          ...state.categories,
+          [category]: {
+            ...state.categories[category],
+            order: updatedCategories,
+          },
+        },
+        employees: updatedEmployees,
+        weeklyReports: updatedWeeklyReports,
+      };
+    }
+
+    case 'ADD_SUBCATEGORY': {
+      return {
+        ...state,
       };
     }
 
