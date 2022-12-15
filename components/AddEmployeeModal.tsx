@@ -1,12 +1,19 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { CheckIcon } from '@heroicons/react/24/outline';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { BudgetContext } from 'contexts/Budget/BudgetContext';
 
 export const AddEmployeeModal = ({ open, setOpen }: any) => {
-  const handleOnSubmit = (data: any) => {
-    console.log('here is the data', data);
+  const { dispatch } = useContext(BudgetContext);
+
+  const handleOnSubmit = (payload: any) => {
+    dispatch({
+      type: 'ADD_EMPLOYEE',
+      payload,
+    });
+
+    setOpen(false);
   };
 
   return (
@@ -47,17 +54,14 @@ export const AddEmployeeModal = ({ open, setOpen }: any) => {
                     initialValues={{
                       teamRole: '',
                       memberName: '',
-                      jobType: '',
+                      jobType: 'role',
                     }}
                     validationSchema={Yup.object({
                       teamRole: Yup.string().required('*Required'),
                       memberName: Yup.string().required('*Required'),
                       jobType: Yup.string().oneOf(['role', 'subcategory']),
                     })}
-                    onSubmit={(values) => {
-                      console.log('here are the values submitted');
-                      console.log(JSON.stringify(values, null, 2));
-                    }}
+                    onSubmit={handleOnSubmit}
                   >
                     <Form>
                       <fieldset className="mt-4">
@@ -70,7 +74,7 @@ export const AddEmployeeModal = ({ open, setOpen }: any) => {
                               id="role"
                               value="role"
                               className="h-4 w-4 border-gray-300 text-salamat-orange"
-                              defaultChecked={true}
+                              checked={true}
                             />
                             <label
                               htmlFor="role"
@@ -86,7 +90,6 @@ export const AddEmployeeModal = ({ open, setOpen }: any) => {
                               id="subcategory"
                               value="subcategory"
                               className="h-4 w-4 border-gray-300 text-salamat-orange"
-                              defaultChecked={false}
                             />
                             <label
                               htmlFor="subcategory"

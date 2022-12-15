@@ -41,13 +41,7 @@ export const Avatar = ({
 
   return (
     <div className={classNames(baseStyles, sizeStyles[size], twClasses)}>
-      <Image
-        src={src}
-        alt={alt}
-        layout="fill"
-        className="rounded-full"
-        {...props}
-      />
+      <Image src={src} alt={alt} className="rounded-full" fill {...props} />
     </div>
   );
 };
