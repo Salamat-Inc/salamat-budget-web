@@ -9065,6 +9065,11 @@ raw-loader@^4.0.2:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
 
+react-currency-input-field@^3.6.9:
+  version "3.6.9"
+  resolved "https://registry.yarnpkg.com/react-currency-input-field/-/react-currency-input-field-3.6.9.tgz#5eaa1190512d1de214863032045b67dd0582c87a"
+  integrity sha512-GNqG1Np+dz3VfBhDc9pFPIyar9SgB/fRjIofFSXOoyFNffda5r24n6LSoXfqQ9L7IKRDoUwveMMJV5GCM2eByw==
+
 react-docgen-typescript@^2.1.1:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/react-docgen-typescript/-/react-docgen-typescript-2.2.2.tgz#4611055e569edc071204aadb20e1c93e1ab1659c"

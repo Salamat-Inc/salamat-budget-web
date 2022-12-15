@@ -3,6 +3,7 @@ import { PlusCircleIcon } from '@heroicons/react/24/outline';
 import { useNumberFormatter } from 'hooks/numberFormatter';
 import { useDebounce } from 'hooks/useDebounce';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
+import CurrencyInput from 'react-currency-input-field';
 
 const LeftRow = ({
   category,
@@ -12,23 +13,24 @@ const LeftRow = ({
   employeeId,
   formatter,
 }: any) => {
+  const { dispatch } = useContext(BudgetContext);
   const [rateTerm, setRateTerm] = useState<number>(employee.rate);
 
-  // const debouncedRateTerm: number = useDebounce<number>(rateTerm, 1500);
+  const debouncedRateTerm: number = useDebounce<number>(rateTerm, 1500);
 
-  // useEffect(
-  //   () => {
-  //     dispatch({
-  //       type: 'UPDATE_RATE',
-  //       payload: {
-  //         rate: debouncedRateTerm,
-  //         employeeId: data.id,
-  //         category,
-  //       },
-  //     });
-  //   },
-  //   [debouncedRateTerm] // Only call effect if debounced search term changes
-  // );
+  useEffect(
+    () => {
+      dispatch({
+        type: 'UPDATE_RATE',
+        payload: {
+          rate: debouncedRateTerm,
+          employeeId,
+          categoryId,
+        },
+      });
+    },
+    [debouncedRateTerm] // Only call effect if debounced search term changes
+  );
 
   return (
     <div className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1">
@@ -37,17 +39,17 @@ const LeftRow = ({
         {employee.totalDays}
       </div>
       <div className="w-[15%] flex flex-row items-baseline text-salamat-black text-right relative">
-        <input
-          className="before:content-['Hello\_World'] appearance-none bg-transparent border-none w-full text-salamat-black text-right mr-3 py-1 px-2 leading-tight focus:outline-none"
-          type="number"
-          placeholder="0"
+        <CurrencyInput
+          className="appearance-none bg-transparent border-none w-full text-salamat-black text-right mr-3 py-1 px-2 leading-tight focus:outline-none"
           aria-label="rate for work"
-          onFocus={(e) => e.target.select()}
-          onChange={(e) => {
-            setRateTerm(e.target.value);
-          }}
+          placeholder="$100.00"
+          decimalsLimit={2}
+          prefix={'$'}
           value={rateTerm}
-        ></input>
+          onValueChange={(value: any) => {
+            setRateTerm(parseFloat(value || '0'));
+          }}
+        />
       </div>
       <div className="w-[30%] text-salamat-black text-right">
         {formatter.format(employee.actualTotalSalary)}
@@ -98,8 +100,6 @@ export const ActualTotalReport = ({
   data,
   setShowEmployeeModal,
 }: any) => {
-  const { dispatch } = useContext(BudgetContext);
-
   const currencyFormatter = useNumberFormatter({
     maximumFractionDigits: 2,
     style: 'currency',
