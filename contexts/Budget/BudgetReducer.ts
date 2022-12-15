@@ -164,7 +164,14 @@ export const budgetReducer = (state: any, action: any) => {
     }
 
     case 'UPDATE_DAYS_WEEKLY': {
-      const { employeeId, days, currentReport, category } = action.payload;
+      const {
+        employeeId,
+        days,
+        currentReport,
+        category,
+        subCategory,
+        subCategoryId,
+      } = action.payload;
 
       // get the current Employee Data, rate, and total days
       const employeeData = state.employees[employeeId];
@@ -196,7 +203,14 @@ export const budgetReducer = (state: any, action: any) => {
 
       // get the current Category and add or subtract the difference in the employee total to the category total
       const categoryData = state.categories[category.id];
-      const updatedCategoryTotal = (categoryData.total += diffEmployeeTotal);
+      const updatedCategoryTotal = categoryData.total + diffEmployeeTotal;
+
+      // update the current subcategory if the employee is also a part of a subcategory
+      let updatedSubCategoryTotal;
+
+      if (subCategory) {
+        updatedSubCategoryTotal = subCategory.total + diffEmployeeTotal;
+      }
 
       // get the updated employee weekly data
       const updatedEmployeeWeeklyData = {
@@ -204,6 +218,26 @@ export const budgetReducer = (state: any, action: any) => {
         days,
         total: updatedEmployeeWeeklyTotal,
       };
+
+      // get the updated category weekly data
+      const currentCategoryWeeklyData =
+        currentReport.employeePayBreakdown[category.id];
+      const updatedCategoryWeeklyData = {
+        ...currentCategoryWeeklyData,
+        total: currentCategoryWeeklyData.total + diffEmployeeTotal,
+      };
+
+      // get the updated subcategory weekly data
+      let updatedSubCategoryWeeklyData: any;
+
+      if (subCategoryId) {
+        const currentSubCategoryWeeklyData =
+          currentReport.employeePayBreakdown[subCategoryId];
+        updatedSubCategoryWeeklyData = {
+          ...currentSubCategoryWeeklyData,
+          total: currentSubCategoryWeeklyData.total + diffEmployeeTotal,
+        };
+      }
 
       // get the updated employee overall data
       const updatedEmployeeData = {
@@ -239,17 +273,35 @@ export const budgetReducer = (state: any, action: any) => {
             ...updatedEmployeeData,
           },
         },
+        subCategories: (() =>
+          !!subCategory
+            ? {
+                ...state.subCategories,
+                [subCategoryId]: {
+                  ...subCategory,
+                  total: updatedSubCategoryTotal,
+                },
+              }
+            : { ...state.subCategories })(),
         weeklyReports: state.weeklyReports.map((report: any) => {
           if (currentReport.id !== report.id) return report;
 
-          return {
+          const updated = {
             ...currentReport,
             weeklyTotal: updatedReportTotal,
             employeePayBreakdown: {
               ...currentReport.employeePayBreakdown,
               [employeeId]: updatedEmployeeWeeklyData,
+              [category.id]: updatedCategoryWeeklyData,
             },
           };
+
+          if (subCategoryId) {
+            updated.employeePayBreakdown[subCategoryId] =
+              updatedSubCategoryWeeklyData;
+          }
+
+          return updated;
         }),
       };
     }

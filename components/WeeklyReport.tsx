@@ -10,6 +10,8 @@ const WeeklyRow = ({
   formatter,
   category,
   currentReport,
+  subCategory = null,
+  subCategoryId,
 }: any) => {
   const { dispatch } = useContext(BudgetContext);
 
@@ -31,6 +33,8 @@ const WeeklyRow = ({
             employeeId,
             category,
             currentReport,
+            subCategory,
+            subCategoryId,
           },
         });
       }
@@ -65,19 +69,21 @@ const WeeklySubcategoryRow = ({
   subCategory,
   formatter,
   currentReport,
+  category,
+  subCategoryId,
 }) => {
-  console.log(subCategoryWeeklyData);
-
   const rows = subCategory.order.map((item: any, index: any) => {
     const employeeWeeklyData = currentReport.employeePayBreakdown[item.id];
     return (
       <WeeklyRow
         key={`weekly-${index}-${item.id}`}
-        category={item}
+        category={category}
         employeeId={item.id}
         employeeWeeklyData={employeeWeeklyData}
         formatter={formatter}
         currentReport={currentReport}
+        subCategory={subCategory}
+        subCategoryId={subCategoryId}
       />
     );
   });
@@ -103,10 +109,6 @@ const renderWeekly = (projectData: any, currentReport: any, formatter: any) => {
       const employeeWeeklyData =
         currentReport.employeePayBreakdown[categoryItem.id];
 
-      if (categoryItem.type === 'subcategory') {
-        console.log(projectData.subCategories[categoryItem.id]);
-      }
-
       return categoryItem.type === 'employee' ? (
         <WeeklyRow
           key={`weekly-${index2}-${categoryItem.id}`}
@@ -122,7 +124,9 @@ const renderWeekly = (projectData: any, currentReport: any, formatter: any) => {
           subCategoryWeeklyData={employeeWeeklyData}
           formatter={formatter}
           subCategory={projectData.subCategories[categoryItem.id]}
+          subCategoryId={categoryItem.id}
           currentReport={currentReport}
+          category={item}
         />
       );
     });
@@ -130,7 +134,9 @@ const renderWeekly = (projectData: any, currentReport: any, formatter: any) => {
       <React.Fragment key={`${currentReport.name}-${item.name}-${index}`}>
         <div className="min-h-[40px] flex justify-between items-center bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 ">
           <div className="w-full text-right">
-            {formatter.format(category.total)}
+            {formatter.format(
+              currentReport.employeePayBreakdown[item.id].total
+            )}
           </div>
         </div>
         {rows}

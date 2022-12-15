@@ -28,7 +28,7 @@ const mockData: any = {
   subCategories: {
     11: {
       name: 'Director Group 1',
-      total: 200,
+      total: 150,
       projectedSubCategoryTotal: 200,
       order: [{ id: 125, type: 'employee' }],
     },
@@ -76,6 +76,9 @@ const mockData: any = {
         },
         11: {
           total: 60,
+        },
+        1: {
+          total: 200,
         },
       },
     },
