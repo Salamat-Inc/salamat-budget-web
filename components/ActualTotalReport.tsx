@@ -5,13 +5,47 @@ import { useDebounce } from 'hooks/useDebounce';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
 import CurrencyInput from 'react-currency-input-field';
 
-const LeftRow = ({
-  category,
+const SubCategoryRow = ({
+  formatter,
   categoryId,
-  name,
+  employees,
+  subCategoryId,
+  subCategory,
+}) => {
+  const rows = subCategory.order.map((employee: any, i: number) => {
+    if (employee.type === 'employee') {
+      return (
+        <LeftRow
+          categoryId={categoryId}
+          key={`${subCategoryId}-${i}-row-actual`}
+          employee={employees[employee.id]}
+          employeeId={employee.id}
+          formatter={formatter}
+          subCategoryId={subCategoryId}
+        />
+      );
+    }
+  });
+  // return <div>{rows}</div>;
+  return (
+    <React.Fragment key={`${subCategory.id}-something-else`}>
+      <div className="min-h-[40px] flex justify-between items-center bg-salamat-orange-light text-salamat-black font-bold rounded-md px-2.5 py-1.5 mt-1">
+        <div className="w-[50%]">{subCategory.name}</div>
+        <div className="w-[50%] text-right">
+          {formatter.format(subCategory.total)}
+        </div>
+      </div>
+      {rows}
+    </React.Fragment>
+  );
+};
+
+const LeftRow = ({
+  categoryId,
   employee,
   employeeId,
   formatter,
+  subCategoryId,
 }: any) => {
   const { dispatch } = useContext(BudgetContext);
   const [rateTerm, setRateTerm] = useState<number>(employee.rate);
@@ -26,6 +60,7 @@ const LeftRow = ({
           rate: debouncedRateTerm,
           employeeId,
           categoryId,
+          subCategoryId,
         },
       });
     },
@@ -33,7 +68,7 @@ const LeftRow = ({
   );
 
   return (
-    <div className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1">
+    <div className="min-h-[40px] flex justify-between items-center bg-salamat-white rounded-md px-2.5 py-1.5 mt-1">
       <div className="w-[45%] text-salamat-black">{employee.name}</div>
       <div className="w-[10%] text-salamat-black text-right">
         {employee.totalDays}
@@ -62,6 +97,7 @@ const renderActualTotals = (
   categories: any,
   order: any,
   employees: any,
+  subCategories: any,
   formatter: any
 ) => {
   // map over the designated order of the categories in order (rows)
@@ -70,20 +106,33 @@ const renderActualTotals = (
     const category = categories[item.id];
 
     const rows = category.order.map((categoryItem: any, i: number) => {
-      return (
-        <LeftRow
-          categoryId={item.id}
-          key={`${categoryItem}-${i}-row-actual`}
-          employee={employees[categoryItem]}
-          employeeId={categoryItem}
-          formatter={formatter}
-        />
-      );
+      if (categoryItem.type === 'employee') {
+        return (
+          <LeftRow
+            categoryId={item.id}
+            key={`${categoryItem}-${i}-row-actual`}
+            employee={employees[categoryItem.id]}
+            employeeId={categoryItem.id}
+            formatter={formatter}
+          />
+        );
+      } else {
+        return (
+          <SubCategoryRow
+            key={`${categoryItem}-${i}-row-actual`}
+            subCategoryId={categoryItem.id}
+            subCategory={subCategories[categoryItem.id]}
+            categoryId={item.id}
+            formatter={formatter}
+            employees={employees}
+          />
+        );
+      }
     });
 
     return (
       <React.Fragment key={`${item.id}-something-else`}>
-        <div className="flex justify-between bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 ">
+        <div className="min-h-[40px] flex justify-between items-center bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 ">
           <div className="w-[50%]">{item.name}</div>
           <div className="w-[50%] text-right">
             {formatter.format(category.total)}
@@ -115,7 +164,7 @@ export const ActualTotalReport = ({
       </div>
 
       {/* Header of the table */}
-      <div className="flex justify-between bg-salamat-blue-dark text-salamat-white rounded-md px-2.5 py-1.5">
+      <div className="min-h-[40px] flex justify-between items-center bg-salamat-blue-dark text-salamat-white rounded-md px-2.5 py-1.5">
         <div className="w-[45%] flex flex-row">
           <button
             onClick={() => {
@@ -136,6 +185,7 @@ export const ActualTotalReport = ({
         data,
         project.dataOrder,
         project.employees,
+        project.subCategories,
         currencyFormatter
       )}
     </div>

@@ -10,6 +10,8 @@ const WeeklyRow = ({
   formatter,
   category,
   currentReport,
+  subCategory = null,
+  subCategoryId,
 }: any) => {
   const { dispatch } = useContext(BudgetContext);
 
@@ -31,6 +33,8 @@ const WeeklyRow = ({
             employeeId,
             category,
             currentReport,
+            subCategory,
+            subCategoryId,
           },
         });
       }
@@ -39,7 +43,7 @@ const WeeklyRow = ({
   );
 
   return (
-    <div className="flex justify-between bg-salamat-white text-salamat-white rounded-md px-2.5 py-1.5 mt-1">
+    <div className="min-h-[40px] flex justify-between items-center bg-salamat-white rounded-md px-2.5 py-1.5 mt-1">
       <div className="w-[15%] text-salamat-black text-right">
         <input
           className="appearance-none bg-transparent border-none w-full text-salamat-black mr-3 py-1 px-2 text-left leading-tight focus:outline-none"
@@ -60,32 +64,79 @@ const WeeklyRow = ({
   );
 };
 
+const WeeklySubcategoryRow = ({
+  subCategoryWeeklyData,
+  subCategory,
+  formatter,
+  currentReport,
+  category,
+  subCategoryId,
+}) => {
+  const rows = subCategory.order.map((item: any, index: any) => {
+    const employeeWeeklyData = currentReport.employeePayBreakdown[item.id];
+    return (
+      <WeeklyRow
+        key={`weekly-${index}-${item.id}`}
+        category={category}
+        employeeId={item.id}
+        employeeWeeklyData={employeeWeeklyData}
+        formatter={formatter}
+        currentReport={currentReport}
+        subCategory={subCategory}
+        subCategoryId={subCategoryId}
+      />
+    );
+  });
+
+  return (
+    <React.Fragment>
+      <div className="min-h-[40px] flex justify-between items-center bg-salamat-orange-light text-salamat-black uppercase font-bold rounded-md px-2.5 py-1.5 mt-1">
+        <div className="w-full text-right">
+          {formatter.format(subCategoryWeeklyData.total)}
+        </div>
+      </div>
+      {rows}
+    </React.Fragment>
+  );
+  // return <div>{subCategoryWeeklyData.total}</div>;
+};
+
 const renderWeekly = (projectData: any, currentReport: any, formatter: any) => {
   return projectData.dataOrder.map((item: any, index: any) => {
     const category = projectData.categories[item.id];
-    let categoryTotalWeek = 0;
 
-    const rows = category.order.map((employeeId: any, index2: any) => {
-      const employeeWeeklyData = currentReport.employeePayBreakdown[employeeId];
+    const rows = category.order.map((categoryItem: any, index2: any) => {
+      const employeeWeeklyData =
+        currentReport.employeePayBreakdown[categoryItem.id];
 
-      categoryTotalWeek += employeeWeeklyData.total;
-
-      return (
+      return categoryItem.type === 'employee' ? (
         <WeeklyRow
-          key={`weekly-${index2}-${employeeId}`}
+          key={`weekly-${index2}-${categoryItem.id}`}
           category={item}
-          employeeId={employeeId}
+          employeeId={categoryItem.id}
           employeeWeeklyData={employeeWeeklyData}
           formatter={formatter}
           currentReport={currentReport}
+        />
+      ) : (
+        <WeeklySubcategoryRow
+          key={`weekly-${index2}-${categoryItem.id}`}
+          subCategoryWeeklyData={employeeWeeklyData}
+          formatter={formatter}
+          subCategory={projectData.subCategories[categoryItem.id]}
+          subCategoryId={categoryItem.id}
+          currentReport={currentReport}
+          category={item}
         />
       );
     });
     return (
       <React.Fragment key={`${currentReport.name}-${item.name}-${index}`}>
-        <div className="flex justify-between bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 ">
+        <div className="min-h-[40px] flex justify-between items-center bg-salamat-orange text-salamat-white uppercase font-bold rounded-md px-2.5 py-1.5 mt-4 ">
           <div className="w-full text-right">
-            {formatter.format(categoryTotalWeek)}
+            {formatter.format(
+              currentReport.employeePayBreakdown[item.id].total
+            )}
           </div>
         </div>
         {rows}
@@ -116,7 +167,7 @@ export const WeeklyReport = ({ projectData, activeWeeklyReport }: any) => {
         </div>
       </div>
       {/* Header of the table */}
-      <div className="flex justify-between bg-salamat-blue-dark text-salamat-white rounded-md px-2.5 py-1.5">
+      <div className="min-h-[40px] flex justify-between items-center bg-salamat-blue-dark text-salamat-white rounded-md px-2.5 py-1.5">
         <div className="w-[40%] text-left">Days</div>
         <div className="w-[40%] text-right">Total</div>
       </div>
