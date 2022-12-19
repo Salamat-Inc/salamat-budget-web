@@ -15,7 +15,7 @@ const Home: NextPage = () => {
   const [activeWeeklyReport, setActiveWeeklyReport] = useState<number>(
     !project ? 0 : project.weeklyReports.length - 1
   );
-  const [showItemModal, setShowItemModal] = useState(false);
+  const [showItemModal, setShowItemModal] = useState(null);
 
   return (
     <>
@@ -44,7 +44,10 @@ const Home: NextPage = () => {
           </main>
           <Footer project={project} activeWeeklyReport={activeWeeklyReport} />
           {showItemModal && (
-            <AddItemModal open={showItemModal} setOpen={setShowItemModal} />
+            <AddItemModal
+              open={showItemModal.type}
+              setOpen={setShowItemModal}
+            />
           )}
         </>
       ) : null}

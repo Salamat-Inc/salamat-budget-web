@@ -13,11 +13,9 @@ export const Table = ({
 }: {
   project: any;
   activeWeeklyReport: number;
-  setShowItemModal: (value: boolean) => void;
+  setShowItemModal: (value: any) => void;
 }) => {
-  //
   const budgetData = project.categories;
-  const weeklyData = project.weeklyReports;
 
   return (
     // Container for the table

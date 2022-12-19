@@ -1,9 +1,92 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext } from 'react';
+import { Menu, Transition } from '@headlessui/react';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
 import { useNumberFormatter } from 'hooks/numberFormatter';
 import { useDebounce } from 'hooks/useDebounce';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
 import CurrencyInput from 'react-currency-input-field';
+import { classNames } from 'utils/classNames';
+import { MODAL_CONSTANTS } from './AddItemModal';
+
+const TableItemDropdown = ({ setShowItemModal }: any) => {
+  const handleOnDropdownItemClick = (modalType: any) => {
+    console.log('setting the modal type to this', modalType);
+    setShowItemModal(modalType);
+  };
+
+  return (
+    <Menu as="div" className="relative inline-block text-left">
+      <div className="flex items-center">
+        <Menu.Button className="inline-flex w-full justify-center focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+          <PlusCircleIcon height="22" width="22" />
+        </Menu.Button>
+      </div>
+
+      <Transition
+        as={Fragment}
+        enter="transition ease-out duration-100"
+        enterFrom="transform opacity-0 scale-95"
+        enterTo="transform opacity-100 scale-100"
+        leave="transition ease-in duration-75"
+        leaveFrom="transform opacity-100 scale-100"
+        leaveTo="transform opacity-0 scale-95"
+      >
+        <Menu.Items className="absolute left-0 z-10 mt-2 w-56 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <div className="py-1">
+            <Menu.Item>
+              {({ active }) => (
+                <button
+                  type="button"
+                  className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                    'block px-4 py-2 text-sm w-full text-left'
+                  )}
+                  onClick={() =>
+                    handleOnDropdownItemClick(MODAL_CONSTANTS.CATEGORY)
+                  }
+                >
+                  Add Category
+                </button>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <button
+                  type="button"
+                  className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                    'block px-4 py-2 text-sm w-full text-left'
+                  )}
+                  onClick={() =>
+                    handleOnDropdownItemClick(MODAL_CONSTANTS.SUBCATEGORY)
+                  }
+                >
+                  Add Subcategory
+                </button>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <button
+                  type="button"
+                  className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                    'block px-4 py-2 text-sm w-full text-left'
+                  )}
+                  onClick={() =>
+                    handleOnDropdownItemClick(MODAL_CONSTANTS.EMPLOYEE)
+                  }
+                >
+                  Add Employee
+                </button>
+              )}
+            </Menu.Item>
+          </div>
+        </Menu.Items>
+      </Transition>
+    </Menu>
+  );
+};
 
 const SubCategoryRow = ({
   formatter,
@@ -162,13 +245,14 @@ export const ActualTotalReport = ({ project, data, setShowItemModal }: any) => {
       {/* Header of the table */}
       <div className="min-h-[40px] flex justify-between items-center bg-salamat-blue-dark text-salamat-white rounded-md px-2.5 py-1.5">
         <div className="w-[45%] flex flex-row">
-          <button
+          {/* <button
             onClick={() => {
               setShowItemModal(true);
             }}
           >
             <PlusCircleIcon height="22" width="22" />
-          </button>
+          </button> */}
+          <TableItemDropdown setShowItemModal={setShowItemModal} />
           <span className="ml-1">Items</span>
         </div>
         <div className="w-[10%] text-right">Days</div>
