@@ -9,15 +9,13 @@ import { ActualTotalReport } from 'components/ActualTotalReport';
 export const Table = ({
   project,
   activeWeeklyReport,
-  setShowEmployeeModal,
+  setShowItemModal,
 }: {
   project: any;
   activeWeeklyReport: number;
-  setShowEmployeeModal: () => void;
+  setShowItemModal: (value: any) => void;
 }) => {
-  //
   const budgetData = project.categories;
-  const weeklyData = project.weeklyReports;
 
   return (
     // Container for the table
@@ -26,7 +24,7 @@ export const Table = ({
       <ActualTotalReport
         project={project}
         data={budgetData}
-        setShowEmployeeModal={setShowEmployeeModal}
+        setShowItemModal={setShowItemModal}
       />
 
       {/* Weekly report */}
