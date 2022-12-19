@@ -1,19 +1,11 @@
-/**
- * SCENARIOS WHERE THE BUDGET IS CHANGED
- *
- * update employee rate
- * update employee days on a specific week
- * deleting an employee
- * adding an employee
- */
-
-import { report } from 'process';
-
 export const CREATE_EMPLOYEE = 'CREATE_EMPLOYEE';
 export const SET_PROJECT = 'SET_PROJECT';
 
-let idState = 12;
-let employeeIdState = 400;
+const mockState = {
+  employeeId: 200,
+  subCategoryId: 30,
+  categoryId: 2,
+};
 
 export const budgetReducer = (state: any, action: any) => {
   switch (action.type) {
@@ -24,7 +16,8 @@ export const budgetReducer = (state: any, action: any) => {
       const { jobType, memberName, teamRole } = action.payload;
 
       // get the employee id
-      const employeeId = 400;
+      const employeeId = mockState.employeeId;
+      mockState.employeeId++;
 
       // generate the new employee object
       const employee = {
@@ -67,8 +60,6 @@ export const budgetReducer = (state: any, action: any) => {
           }
         }
       }
-
-      const updatedSubCategories = { ...state.subcategories };
 
       // ensure the all weekly reports are updated with the new employee
       const updatedWeeklyReports = state.weeklyReports.map((report: any) => ({
@@ -136,7 +127,8 @@ export const budgetReducer = (state: any, action: any) => {
     case 'ADD_CATEGORY': {
       const { name } = action.payload;
 
-      const categoryId = 3;
+      const categoryId = mockState.categoryId;
+      mockState.categoryId++;
 
       // initialize the empty category
       const category = {
@@ -169,7 +161,8 @@ export const budgetReducer = (state: any, action: any) => {
     case 'ADD_SUBCATEGORY': {
       const { name, parentCategoryName } = action.payload;
 
-      const subcategoryId = 22;
+      const subcategoryId = mockState.subCategoryId;
+      mockState.subCategoryId++;
 
       // initialize empty subcategory
       const subcategory = {
