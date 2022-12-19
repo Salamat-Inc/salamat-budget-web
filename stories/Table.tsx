@@ -9,11 +9,11 @@ import { ActualTotalReport } from 'components/ActualTotalReport';
 export const Table = ({
   project,
   activeWeeklyReport,
-  setShowEmployeeModal,
+  setShowItemModal,
 }: {
   project: any;
   activeWeeklyReport: number;
-  setShowEmployeeModal: () => void;
+  setShowItemModal: (value: boolean) => void;
 }) => {
   //
   const budgetData = project.categories;
@@ -26,7 +26,7 @@ export const Table = ({
       <ActualTotalReport
         project={project}
         data={budgetData}
-        setShowEmployeeModal={setShowEmployeeModal}
+        setShowItemModal={setShowItemModal}
       />
 
       {/* Weekly report */}

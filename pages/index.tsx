@@ -8,14 +8,14 @@ import { Button } from 'stories/Button';
 import { Table } from 'stories/Table';
 import { Data } from 'interfaces/ApiData';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
-import { AddEmployeeModal } from 'components/AddEmployeeModal';
+import { AddItemModal } from 'components/AddItemModal';
 
 const Home: NextPage = () => {
   const { project } = useContext(BudgetContext);
   const [activeWeeklyReport, setActiveWeeklyReport] = useState<number>(
     !project ? 0 : project.weeklyReports.length - 1
   );
-  const [showEmployeeModal, setShowEmployeeModal] = useState(false);
+  const [showItemModal, setShowItemModal] = useState(false);
 
   return (
     <>
@@ -37,17 +37,14 @@ const Home: NextPage = () => {
                 <Table
                   project={project}
                   activeWeeklyReport={activeWeeklyReport}
-                  setShowEmployeeModal={setShowEmployeeModal}
+                  setShowItemModal={setShowItemModal}
                 />
               )}
             </div>
           </main>
           <Footer project={project} activeWeeklyReport={activeWeeklyReport} />
-          {showEmployeeModal && (
-            <AddEmployeeModal
-              open={showEmployeeModal}
-              setOpen={setShowEmployeeModal}
-            />
+          {showItemModal && (
+            <AddItemModal open={showItemModal} setOpen={setShowItemModal} />
           )}
         </>
       ) : null}

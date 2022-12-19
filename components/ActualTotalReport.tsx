@@ -144,11 +144,7 @@ const renderActualTotals = (
   });
 };
 
-export const ActualTotalReport = ({
-  project,
-  data,
-  setShowEmployeeModal,
-}: any) => {
+export const ActualTotalReport = ({ project, data, setShowItemModal }: any) => {
   const currencyFormatter = useNumberFormatter({
     maximumFractionDigits: 2,
     style: 'currency',
@@ -168,7 +164,7 @@ export const ActualTotalReport = ({
         <div className="w-[45%] flex flex-row">
           <button
             onClick={() => {
-              setShowEmployeeModal(true);
+              setShowItemModal(true);
             }}
           >
             <PlusCircleIcon height="22" width="22" />

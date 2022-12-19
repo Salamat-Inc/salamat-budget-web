@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
 
-export const AddEmployeeModal = ({ open, setOpen }: any) => {
+export const AddItemModal = ({ open, setOpen }: any) => {
   const { dispatch } = useContext(BudgetContext);
 
   const handleOnSubmit = (payload: any) => {
