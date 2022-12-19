@@ -7,7 +7,7 @@ import { Table } from 'stories/Table';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
 import { AddItemModal } from 'components/AddItemModal';
 
-const Home: NextPage = () => {
+const Budget: NextPage = () => {
   const { project } = useContext(BudgetContext);
   const [activeWeeklyReport, setActiveWeeklyReport] = useState<number>(
     !project ? 0 : project.weeklyReports.length - 1
@@ -49,4 +49,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Budget;

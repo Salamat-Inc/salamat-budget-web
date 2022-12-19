@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { Popover, Transition } from '@headlessui/react';
-import Image from 'next/image';
 import Link from 'next/link';
 import {
   ArrowPathIcon,
@@ -12,7 +11,6 @@ import {
   Squares2X2Icon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { TextLink } from './TextLink';
 import { Avatar } from './Avatar';
 
