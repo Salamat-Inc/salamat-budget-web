@@ -5,6 +5,8 @@ import { Data } from 'interfaces/ApiData';
 const mockData: any = {
   name: 'Test Project',
   id: 'apple',
+  projectedTotal: 800,
+  actualTotal: 600,
   dataOrder: [
     {
       id: 1,
@@ -12,58 +14,75 @@ const mockData: any = {
     },
   ],
   categories: {
-    Directors: {
+    1: {
+      name: 'Directors',
+      total: 600,
+      projectedCategoryTotal: 800,
       order: [
-        {
-          id: 123,
-          type: 'employee',
-          rate: 100,
-          days: 2,
-          total: 200,
-          projectedTotal: 400,
-        },
-        {
-          id: 124,
-          type: 'employee',
-          rate: 100,
-          days: 2,
-          total: 200,
-          projectedTotal: 400,
-        },
+        { id: 123, type: 'employee' },
+        { id: 124, type: 'employee' },
+        { id: 11, type: 'subcategory' },
       ],
     },
   },
   subCategories: {
-    10: {
-      name: 'Cast',
+    11: {
+      name: 'Director Group 1',
+      total: 150,
+      projectedSubCategoryTotal: 200,
+      order: [{ id: 125, type: 'employee' }],
     },
   },
   employees: {
     123: {
       name: 'George Lucas',
+      rate: 100,
+      totalDays: 3,
+      actualTotalSalary: 300,
+      projectedTotalSalary: 400,
     },
     124: {
-      name: 'John Doe',
+      name: 'George Foreman',
+      rate: 50,
+      totalDays: 3,
+      actualTotalSalary: 150,
+      projectedTotalSalary: 400,
+    },
+    125: {
+      name: 'Mike Tyson',
+      rate: 30,
+      totalDays: 5,
+      actualTotalSalary: 150,
+      projectedTotalSalary: 400,
     },
   },
   weeklyReports: [
     {
       name: 'week 1',
-      rateData: {
+      id: 'week-1-id',
+      weeklyTotal: 210,
+      employeePayBreakdown: {
         123: {
           days: 1,
-          currentTotal: 100,
-          totalToDate: 100,
+          total: 100,
         },
         124: {
           days: 1,
-          currentTotal: 200,
-          totalToDate: 200,
+          total: 50,
+        },
+        125: {
+          days: 2,
+          total: 60,
+        },
+        11: {
+          total: 60,
+        },
+        1: {
+          total: 210,
         },
       },
     },
   ],
-  // employees: [{ name: 'George Lucas', salary: 100000 }],
 };
 
 export default function handler(

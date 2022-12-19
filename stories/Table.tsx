@@ -6,19 +6,32 @@ import { useDebounce } from 'hooks/useDebounce';
 import { ProjectedTotalReport } from 'components/ProjectedTotalReport';
 import { ActualTotalReport } from 'components/ActualTotalReport';
 
-export const Table = ({ project }: { project: any }) => {
-  //
+export const Table = ({
+  project,
+  activeWeeklyReport,
+  setShowItemModal,
+}: {
+  project: any;
+  activeWeeklyReport: number;
+  setShowItemModal: (value: any) => void;
+}) => {
   const budgetData = project.categories;
-  const weeklyData = project.weeklyReports;
 
   return (
     // Container for the table
-    <div className="min-w-full flex flex-row bg-salamat-lesser-white">
+    <div className="min-w-full min-h-[800px] flex flex-row bg-salamat-lesser-white">
       {/* Actual Totals */}
-      <ActualTotalReport project={project} data={budgetData} />
+      <ActualTotalReport
+        project={project}
+        data={budgetData}
+        setShowItemModal={setShowItemModal}
+      />
 
       {/* Weekly report */}
-      <WeeklyReport weekData={weeklyData} projectData={project} />
+      <WeeklyReport
+        projectData={project}
+        activeWeeklyReport={activeWeeklyReport}
+      />
 
       {/* Render projected totals */}
       <ProjectedTotalReport project={project} />
