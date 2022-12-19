@@ -1,11 +1,19 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
 
+const MODAL_CONSTANTS = {
+  EMPLOYEE: 'MODAL_EMPLOYEE',
+  SUBCATEGORY: 'MODAL_SUBCATEGORY',
+};
+
 export const AddItemModal = ({ open, setOpen }: any) => {
   const { dispatch } = useContext(BudgetContext);
+  const [activeModal, setActiveModal] = useState<string>(
+    MODAL_CONSTANTS.SUBCATEGORY
+  );
 
   const handleOnSubmit = (payload: any) => {
     if (payload.jobType === 'subcategory') {
