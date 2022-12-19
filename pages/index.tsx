@@ -1,12 +1,9 @@
 import type { NextPage } from 'next';
 import { useContext, useState } from 'react';
-import Head from 'next/head';
-import Image from 'next/image';
 import { SalamatHeader } from 'stories/SalamatHeader';
 import { Footer } from 'stories/Footer';
 import { Button } from 'stories/Button';
 import { Table } from 'stories/Table';
-import { Data } from 'interfaces/ApiData';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
 import { AddItemModal } from 'components/AddItemModal';
 
