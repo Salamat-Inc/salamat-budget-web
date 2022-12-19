@@ -6,7 +6,7 @@ const mockData: any = {
   name: 'Test Project',
   id: 'apple',
   projectedTotal: 800,
-  actualTotal: 450,
+  actualTotal: 600,
   dataOrder: [
     {
       id: 1,
@@ -16,7 +16,7 @@ const mockData: any = {
   categories: {
     1: {
       name: 'Directors',
-      total: 450,
+      total: 600,
       projectedCategoryTotal: 800,
       order: [
         { id: 123, type: 'employee' },
@@ -60,7 +60,7 @@ const mockData: any = {
     {
       name: 'week 1',
       id: 'week-1-id',
-      weeklyTotal: 150,
+      weeklyTotal: 210,
       employeePayBreakdown: {
         123: {
           days: 1,
@@ -78,7 +78,7 @@ const mockData: any = {
           total: 60,
         },
         1: {
-          total: 200,
+          total: 210,
         },
       },
     },

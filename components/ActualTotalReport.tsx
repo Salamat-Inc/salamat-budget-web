@@ -13,7 +13,6 @@ const SubCategoryRow = ({
   subCategory,
 }) => {
   const rows = subCategory.order.map((employee: any, i: number) => {
-    console.log('employee type', employee, employees);
     if (employee.type === 'employee') {
       return (
         <LeftRow
@@ -22,6 +21,7 @@ const SubCategoryRow = ({
           employee={employees[employee.id]}
           employeeId={employee.id}
           formatter={formatter}
+          subCategoryId={subCategoryId}
         />
       );
     }
@@ -41,14 +41,12 @@ const SubCategoryRow = ({
 };
 
 const LeftRow = ({
-  category,
   categoryId,
-  name,
   employee,
   employeeId,
   formatter,
+  subCategoryId,
 }: any) => {
-  console.log('inside left row', employee, employeeId, categoryId);
   const { dispatch } = useContext(BudgetContext);
   const [rateTerm, setRateTerm] = useState<number>(employee.rate);
 
@@ -62,6 +60,7 @@ const LeftRow = ({
           rate: debouncedRateTerm,
           employeeId,
           categoryId,
+          subCategoryId,
         },
       });
     },

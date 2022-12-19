@@ -81,8 +81,7 @@ export const budgetReducer = (state: any, action: any) => {
     }
 
     case 'UPDATE_RATE': {
-      const { employeeId, rate, categoryId } = action.payload;
-      console.log('inside of update rate', employeeId, rate, categoryId);
+      const { employeeId, rate, categoryId, subCategoryId } = action.payload;
 
       // get the employee
       const employee = state.employees[employeeId];
@@ -101,6 +100,14 @@ export const budgetReducer = (state: any, action: any) => {
       const currentCategoryTotal = category.total;
       const updatedCategoryTotal = currentCategoryTotal + salaryDifference;
 
+      // get currentSubCategory total if it exists
+      const subCategory = state.subCategories[subCategoryId];
+      if (subCategory) {
+        const currentSubCategoryTotal = subCategory.total;
+        const updatedSubCategoryTotal =
+          currentSubCategoryTotal + salaryDifference;
+      }
+
       // update the payBreakdown of weekly reports
       const weeklyReports = state.weeklyReports;
       const updatedWeeklyReports = weeklyReports.map((report: any) => {
@@ -116,10 +123,11 @@ export const budgetReducer = (state: any, action: any) => {
         const updatedEmployeeWeeklySalary = Number(
           (currentEmployeeBreakdown.days * rate).toFixed(2)
         );
+        const weeklyDifference =
+          updatedEmployeeWeeklySalary - currentEmployeeBreakdown.total;
 
         // update the difference
-        updatedWeeklyTotal +=
-          updatedEmployeeWeeklySalary - currentEmployeeBreakdown.total;
+        updatedWeeklyTotal += weeklyDifference;
 
         // create the new updated pay breakdown
         const updatedEmployeePayBreakdown = {
@@ -128,7 +136,21 @@ export const budgetReducer = (state: any, action: any) => {
             ...currentEmployeeBreakdown,
             total: updatedEmployeeWeeklySalary,
           },
+          [categoryId]: {
+            ...employeePayBreakdown[categoryId],
+            total: employeePayBreakdown[categoryId].total + weeklyDifference,
+          },
         };
+
+        // get subvategory
+        if (subCategory) {
+          updatedEmployeePayBreakdown[subCategoryId] = {
+            ...updatedEmployeePayBreakdown[subCategoryId],
+            total:
+              updatedEmployeePayBreakdown[subCategoryId].total +
+              weeklyDifference,
+          };
+        }
 
         // get the new updated report
         return {
@@ -144,8 +166,18 @@ export const budgetReducer = (state: any, action: any) => {
         actualTotalSalary: updatedSalary,
       };
 
+      const updatedSubCategories = { ...state.subCategories };
+
+      if (subCategory) {
+        updatedSubCategories[subCategoryId] = {
+          ...updatedSubCategories[subCategoryId],
+          total: updatedSubCategories[subCategoryId].total + salaryDifference,
+        };
+      }
+
       return {
         ...state,
+        actualTotal: state.actualTotal + salaryDifference,
         categories: {
           ...state.categories,
           [categoryId]: {
@@ -159,6 +191,7 @@ export const budgetReducer = (state: any, action: any) => {
             ...updatedEmployee,
           },
         },
+        subCategories: updatedSubCategories,
         weeklyReports: updatedWeeklyReports,
       };
     }

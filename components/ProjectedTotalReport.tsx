@@ -58,7 +58,6 @@ const renderProjectedAmount = (
           </div>
         );
       } else {
-        console.log('here is the subCategory', row.id);
         const subCategory = projectData.subCategories[row.id];
 
         return (
