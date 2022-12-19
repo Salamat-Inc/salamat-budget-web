@@ -15,86 +15,30 @@ export const SubcategoryModalContents = () => {
         as="h3"
         className="text-lg font-medium leading-6 text-gray-900"
       >
-        Create New
+        Create New Subcategory
       </Dialog.Title>
       <Formik
         initialValues={{
-          teamRole: '',
-          memberName: '',
-          jobType: 'role',
+          name: '',
         }}
         validationSchema={Yup.object({
-          teamRole: Yup.string().required('*Required'),
-          memberName: Yup.string().required('*Required'),
-          jobType: Yup.string().oneOf(['role', 'subcategory']),
+          name: Yup.string().required('*Required'),
         })}
         onSubmit={handleOnSubmit}
       >
         <Form>
-          <fieldset className="mt-4">
-            <legend className="sr-only">Notification method</legend>
-            <div className="flex flex-row justify-between px-6">
-              <div className="flex items-center">
-                <Field
-                  type="radio"
-                  name="jobType"
-                  id="role"
-                  value="role"
-                  className="h-4 w-4 border-gray-300 text-salamat-orange"
-                  checked={true}
-                />
-                <label
-                  htmlFor="role"
-                  className="ml-3 block text-sm font-medium text-gray-700"
-                >
-                  Role
-                </label>
-              </div>
-              <div className="flex items-center">
-                <Field
-                  type="radio"
-                  name="jobType"
-                  id="subcategory"
-                  value="subcategory"
-                  className="h-4 w-4 border-gray-300 text-salamat-orange"
-                />
-                <label
-                  htmlFor="subcategory"
-                  className="ml-3 block text-sm font-medium text-gray-700"
-                >
-                  Subcategory
-                </label>
-              </div>
-            </div>
-          </fieldset>
-
           <div className="mt-4">
-            <label htmlFor="teamRole" className="sr-only">
-              Team Role
+            <label htmlFor="name" className="sr-only">
+              Subcategory Name
             </label>
             <Field
               type="text"
-              name="teamRole"
+              name="name"
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              placeholder="Team role"
+              placeholder="Subcategory Name"
             />
             <div className="text-salamat-orange text-sm">
-              <ErrorMessage name="teamRole" />
-            </div>
-          </div>
-
-          <div className="mt-4">
-            <label htmlFor="memberName" className="sr-only">
-              Team Member Name
-            </label>
-            <Field
-              type="text"
-              name="memberName"
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              placeholder="Team member name"
-            />
-            <div className="text-salamat-orange text-sm">
-              <ErrorMessage name="memberName" />
+              <ErrorMessage name="name" />
             </div>
           </div>
 

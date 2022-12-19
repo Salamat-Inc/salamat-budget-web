@@ -44,10 +44,7 @@ const Home: NextPage = () => {
           </main>
           <Footer project={project} activeWeeklyReport={activeWeeklyReport} />
           {showItemModal && (
-            <AddItemModal
-              open={showItemModal.type}
-              setOpen={setShowItemModal}
-            />
+            <AddItemModal open={showItemModal} setOpen={setShowItemModal} />
           )}
         </>
       ) : null}

@@ -15,7 +15,7 @@ export const EmployeeModalContents = () => {
         as="h3"
         className="text-lg font-medium leading-6 text-gray-900"
       >
-        Create New
+        Create New Employee
       </Dialog.Title>
       <Formik
         initialValues={{
@@ -26,48 +26,10 @@ export const EmployeeModalContents = () => {
         validationSchema={Yup.object({
           teamRole: Yup.string().required('*Required'),
           memberName: Yup.string().required('*Required'),
-          jobType: Yup.string().oneOf(['role', 'subcategory']),
         })}
         onSubmit={handleOnSubmit}
       >
         <Form>
-          <fieldset className="mt-4">
-            <legend className="sr-only">Notification method</legend>
-            <div className="flex flex-row justify-between px-6">
-              <div className="flex items-center">
-                <Field
-                  type="radio"
-                  name="jobType"
-                  id="role"
-                  value="role"
-                  className="h-4 w-4 border-gray-300 text-salamat-orange"
-                  checked={true}
-                />
-                <label
-                  htmlFor="role"
-                  className="ml-3 block text-sm font-medium text-gray-700"
-                >
-                  Role
-                </label>
-              </div>
-              <div className="flex items-center">
-                <Field
-                  type="radio"
-                  name="jobType"
-                  id="subcategory"
-                  value="subcategory"
-                  className="h-4 w-4 border-gray-300 text-salamat-orange"
-                />
-                <label
-                  htmlFor="subcategory"
-                  className="ml-3 block text-sm font-medium text-gray-700"
-                >
-                  Subcategory
-                </label>
-              </div>
-            </div>
-          </fieldset>
-
           <div className="mt-4">
             <label htmlFor="teamRole" className="sr-only">
               Team Role

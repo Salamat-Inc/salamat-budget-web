@@ -45,6 +45,8 @@ export const AddItemModal = ({ open, setOpen }: any) => {
     return <EmployeeModalContents />;
   };
 
+  console.log('here is the open', open);
+
   return (
     <Transition.Root show={!!open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
