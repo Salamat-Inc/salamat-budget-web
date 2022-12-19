@@ -42,11 +42,33 @@ export const budgetReducer = (state: any, action: any) => {
       };
 
       // add employee to the correct category
-      const category = 1;
-      const updatedCategories = [
-        ...state.categories[category].order,
-        { id: employeeId, type: 'employee' },
-      ];
+      // @TODO: ideal state where the category is sent as ID
+      // const category = 1;
+      let isCategory = false;
+      let isSubcategory = false;
+      let parentId: any;
+
+      // check categories first
+      for (const [key, value] of Object.entries(state.categories)) {
+        if (value.name.toLowerCase() === teamRole.toLowerCase()) {
+          parentId = key;
+          isCategory = true;
+          break;
+        }
+      }
+
+      // check subCategories if not
+      if (!isCategory) {
+        for (const [key, value] of Object.entries(state.subCategories)) {
+          if (value.name.toLowerCase() === teamRole.toLowerCase()) {
+            parentId = key;
+            isSubcategory = true;
+            break;
+          }
+        }
+      }
+
+      const updatedSubCategories = { ...state.subcategories };
 
       // ensure the all weekly reports are updated with the new employee
       const updatedWeeklyReports = state.weeklyReports.map((report: any) => ({
@@ -60,23 +82,146 @@ export const budgetReducer = (state: any, action: any) => {
         },
       }));
 
-      return {
+      const updatedState = {
         ...state,
-        categories: {
-          ...state.categories,
-          [category]: {
-            ...state.categories[category],
-            order: updatedCategories,
-          },
-        },
         employees: updatedEmployees,
         weeklyReports: updatedWeeklyReports,
+      };
+
+      if (isCategory) {
+        // find first instance of subcategory if it exists
+        const updatedCategoryOrder: any = [...state.categories[parentId].order];
+
+        const subCategoryIndex = updatedCategoryOrder.findIndex((item: any) => {
+          return item.type.toLowerCase() === 'subcategory';
+        });
+
+        if (subCategoryIndex >= 0) {
+          updatedCategoryOrder.splice(subCategoryIndex, 0, {
+            id: employeeId,
+            type: 'employee',
+          });
+        } else {
+          updatedCategoryOrder.push({
+            id: employeeId,
+            type: 'employee',
+          });
+        }
+
+        updatedState.categories = {
+          ...state.categories,
+          [parentId]: {
+            ...state.categories[parentId],
+            order: updatedCategoryOrder,
+          },
+        };
+      } else if (isSubcategory) {
+        const updatedSsubcategoryOrder: any = [
+          ...state.subCategories[parentId].order,
+          { id: employeeId, type: 'employee' },
+        ];
+
+        updatedState.subCategories = {
+          ...state.subCategories,
+          [parentId]: {
+            ...state.subCategories[parentId],
+            order: updatedSsubcategoryOrder,
+          },
+        };
+      }
+
+      return updatedState;
+    }
+
+    case 'ADD_CATEGORY': {
+      const { name } = action.payload;
+
+      const categoryId = 3;
+
+      // initialize the empty category
+      const category = {
+        name,
+        total: 0,
+        projectedCategoryTotal: 0,
+        order: [],
+      };
+
+      // add category to list of categories
+      const updatedCategories = { ...state.categories, [categoryId]: category };
+
+      // add category to order
+      const updatedOrder = [...state.dataOrder, { id: categoryId, name }];
+
+      // add category to weekly reports
+      const updatedWeeklyReports = state.weeklyReports.map((report: any) => {
+        report.employeePayBreakdown[categoryId] = { total: 0 };
+        return report;
+      });
+
+      return {
+        ...state,
+        categories: updatedCategories,
+        dataOrder: updatedOrder,
+        weeklyReport: updatedWeeklyReports,
       };
     }
 
     case 'ADD_SUBCATEGORY': {
+      const { name, parentCategoryName } = action.payload;
+
+      const subcategoryId = 22;
+
+      // initialize empty subcategory
+      const subcategory = {
+        name,
+        total: 0,
+        projectedSubCategoryTotal: 0,
+        order: [],
+      };
+
+      // Add Subcategory to list of subcategories in a category
+      const updatedSubCategories = {
+        ...state.subCategories,
+        [subcategoryId]: subcategory,
+      };
+
+      // Add Subcategoryid to parent Category list
+      let parentCategory: any = {};
+      let parentCategoryId: any;
+
+      for (const [key, value] of Object.entries(state.categories)) {
+        if (value.name === parentCategoryName) {
+          parentCategoryId = key;
+          parentCategory = value;
+          break;
+        }
+      }
+
+      const updatedParentCategory = {
+        ...parentCategory,
+        order: [
+          ...parentCategory.order,
+          { id: subcategoryId, type: 'subcategory' },
+        ],
+      };
+
+      // Add subcategory to each weeekly report
+      const updatedWeeklyReports = state.weeklyReports.map((report: any) => {
+        report.employeePayBreakdown[subcategoryId] = {
+          total: 0,
+        };
+
+        return report;
+      });
+
       return {
         ...state,
+        categories: {
+          ...state.categories,
+          [parentCategoryId]: updatedParentCategory,
+        },
+        subCategories: updatedSubCategories,
+        weeklyReports: updatedWeeklyReports,
       };
     }
 

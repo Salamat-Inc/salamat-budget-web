@@ -4,9 +4,16 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
 
-export const EmployeeModalContents = () => {
-  const handleOnSubmit = () => {
-    console.log('submitting the Employee modal');
+export const EmployeeModalContents = ({ setOpen }: any) => {
+  const { dispatch } = useContext(BudgetContext);
+
+  const handleOnSubmit = (payload: any) => {
+    dispatch({
+      type: 'ADD_EMPLOYEE',
+      payload,
+    });
+
+    setOpen(null);
   };
 
   return (

@@ -33,19 +33,17 @@ export const AddItemModal = ({ open, setOpen }: any) => {
     setOpen(null);
   };
 
-  const renderModalContents = (modalType: any) => {
+  const renderModalContents = (modalType: any, setOpen: any) => {
     if (modalType === MODAL_CONSTANTS.CATEGORY) {
-      return <CategoryModalContents />;
+      return <CategoryModalContents setOpen={setOpen} />;
     }
 
     if (modalType === MODAL_CONSTANTS.SUBCATEGORY) {
-      return <SubcategoryModalContents />;
+      return <SubcategoryModalContents setOpen={setOpen} />;
     }
 
-    return <EmployeeModalContents />;
+    return <EmployeeModalContents setOpen={setOpen} />;
   };
-
-  console.log('here is the open', open);
 
   return (
     <Transition.Root show={!!open} as={Fragment}>
@@ -74,7 +72,7 @@ export const AddItemModal = ({ open, setOpen }: any) => {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
-                {renderModalContents(open)}
+                {renderModalContents(open, setOpen)}
               </Dialog.Panel>
             </Transition.Child>
           </div>

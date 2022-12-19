@@ -4,9 +4,16 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
 
-export const SubcategoryModalContents = () => {
-  const handleOnSubmit = () => {
-    console.log('submitting the subcategory modal');
+export const SubcategoryModalContents = ({ setOpen }: any) => {
+  const { dispatch } = useContext(BudgetContext);
+
+  const handleOnSubmit = (payload: any) => {
+    dispatch({
+      type: 'ADD_SUBCATEGORY',
+      payload,
+    });
+
+    setOpen(null);
   };
 
   return (
@@ -20,9 +27,11 @@ export const SubcategoryModalContents = () => {
       <Formik
         initialValues={{
           name: '',
+          parentCategoryName: '',
         }}
         validationSchema={Yup.object({
           name: Yup.string().required('*Required'),
+          parentCategoryName: Yup.string().required('*Required'),
         })}
         onSubmit={handleOnSubmit}
       >
@@ -39,6 +48,21 @@ export const SubcategoryModalContents = () => {
             />
             <div className="text-salamat-orange text-sm">
               <ErrorMessage name="name" />
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <label htmlFor="parentCategoryName" className="sr-only">
+              Category
+            </label>
+            <Field
+              type="text"
+              name="parentCategoryName"
+              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              placeholder="Category"
+            />
+            <div className="text-salamat-orange text-sm">
+              <ErrorMessage name="parentCategoryName" />
             </div>
           </div>
 

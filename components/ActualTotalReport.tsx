@@ -10,7 +10,6 @@ import { MODAL_CONSTANTS } from './AddItemModal';
 
 const TableItemDropdown = ({ setShowItemModal }: any) => {
   const handleOnDropdownItemClick = (modalType: any) => {
-    console.log('setting the modal type to this', modalType);
     setShowItemModal(modalType);
   };
 

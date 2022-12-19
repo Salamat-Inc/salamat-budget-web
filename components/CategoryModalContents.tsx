@@ -4,11 +4,16 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
 
-export const CategoryModalContents = () => {
+export const CategoryModalContents = ({ setOpen }: any) => {
   const { dispatch } = useContext(BudgetContext);
 
-  const handleOnSubmit = () => {
-    console.log('submitting the category modal');
+  const handleOnSubmit = (payload: any) => {
+    dispatch({
+      type: 'ADD_CATEGORY',
+      payload,
+    });
+
+    setOpen(null);
   };
 
   return (
