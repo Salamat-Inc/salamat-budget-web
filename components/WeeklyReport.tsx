@@ -3,6 +3,7 @@ import { useNumberFormatter } from 'hooks/numberFormatter';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 import { useDebounce } from 'hooks/useDebounce';
 import { BudgetContext } from 'contexts/Budget/BudgetContext';
+import { classNames } from 'utils/classNames';
 
 const WeeklyRow = ({
   employeeWeeklyData,
@@ -19,7 +20,7 @@ const WeeklyRow = ({
     employeeWeeklyData.days.toString()
   );
 
-  const debouncedDaysTerm: string = useDebounce<string>(daysTerm, 1500);
+  const debouncedDaysTerm: string = useDebounce<string>(daysTerm, 500);
 
   useEffect(
     () => {
@@ -144,7 +145,11 @@ const renderWeekly = (projectData: any, currentReport: any, formatter: any) => {
   });
 };
 
-export const WeeklyReport = ({ projectData, activeWeeklyReport }: any) => {
+export const WeeklyReport = ({
+  projectData,
+  activeWeeklyReport,
+  setActiveWeeklyReport,
+}: any) => {
   const weeklyReportData = projectData.weeklyReports;
   const currentReport = weeklyReportData[activeWeeklyReport];
 
@@ -154,16 +159,63 @@ export const WeeklyReport = ({ projectData, activeWeeklyReport }: any) => {
     currency: 'USD',
   });
 
+  const handleWeeklyPaginate = (
+    direction,
+    currentActiveReportIndex,
+    totalWeeklyReports,
+    setActiveWeeklyReport
+  ) => {
+    if (direction === 'previous') {
+      const previousIndex = currentActiveReportIndex - 1;
+      if (previousIndex > -1) {
+        setActiveWeeklyReport(previousIndex);
+      }
+    } else if (direction === 'next') {
+      const nextIndex = currentActiveReportIndex + 1;
+      if (nextIndex <= totalWeeklyReports) {
+        setActiveWeeklyReport(nextIndex);
+      }
+    }
+  };
+
   return (
     <div className="w-[25%] p-4">
       <div className="flex flex-row justify-between h-16 items-center">
-        <div className="text-salamat-orange">
+        <button
+          className={classNames(
+            activeWeeklyReport - 1 > -1 ? '' : 'invisible',
+            'text-salamat-orange'
+          )}
+          onClick={() =>
+            handleWeeklyPaginate(
+              'previous',
+              activeWeeklyReport,
+              projectData.weeklyReports.length - 1,
+              setActiveWeeklyReport
+            )
+          }
+        >
           <ChevronLeftIcon height="30" width="30" />
-        </div>
-        <div className="uppercase font-bold">Week 1</div>
-        <div className="text-salamat-orange">
+        </button>
+        <div className="uppercase font-bold">{currentReport.name}</div>
+        <button
+          className={classNames(
+            activeWeeklyReport + 1 <= projectData.weeklyReports.length - 1
+              ? ''
+              : 'invisible',
+            'text-salamat-orange'
+          )}
+          onClick={() =>
+            handleWeeklyPaginate(
+              'next',
+              activeWeeklyReport,
+              projectData.weeklyReports.length - 1,
+              setActiveWeeklyReport
+            )
+          }
+        >
           <ChevronRightIcon height="30" width="30" />
-        </div>
+        </button>
       </div>
       {/* Header of the table */}
       <div className="min-h-[40px] flex justify-between items-center bg-salamat-blue-dark text-salamat-white rounded-md px-2.5 py-1.5">

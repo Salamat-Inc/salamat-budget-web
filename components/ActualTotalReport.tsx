@@ -132,7 +132,7 @@ const LeftRow = ({
   const { dispatch } = useContext(BudgetContext);
   const [rateTerm, setRateTerm] = useState<number>(employee.rate);
 
-  const debouncedRateTerm: number = useDebounce<number>(rateTerm, 1500);
+  const debouncedRateTerm: number = useDebounce<number>(rateTerm, 500);
 
   useEffect(
     () => {
@@ -163,9 +163,9 @@ const LeftRow = ({
           decimalScale={2}
           value={rateTerm}
           onValueChange={(value: any) => {
-            setRateTerm(value);
+            setRateTerm(value || 0);
           }}
-          placeholder="Please enter a number"
+          placeholder="ex. $100.00"
           prefix={'$'}
           allowNegativeValue={false}
         />

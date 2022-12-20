@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { SalamatHeader } from 'stories/SalamatHeader';
 import { Footer } from 'stories/Footer';
 import { Button } from 'stories/Button';
@@ -12,7 +12,14 @@ const Budget: NextPage = () => {
   const [activeWeeklyReport, setActiveWeeklyReport] = useState<number>(
     !project ? 0 : project.weeklyReports.length - 1
   );
+
   const [showItemModal, setShowItemModal] = useState(null);
+
+  useEffect(() => {
+    if (project) {
+      setActiveWeeklyReport(project.weeklyReports.length - 1);
+    }
+  }, [project]);
 
   return (
     <>
@@ -35,6 +42,7 @@ const Budget: NextPage = () => {
                   project={project}
                   activeWeeklyReport={activeWeeklyReport}
                   setShowItemModal={setShowItemModal}
+                  setActiveWeeklyReport={setActiveWeeklyReport}
                 />
               )}
             </div>

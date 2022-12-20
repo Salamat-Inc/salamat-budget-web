@@ -47,7 +47,7 @@ export const EmployeeModalContents = ({ setOpen }: any) => {
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               placeholder="Team role"
             />
-            <div className="text-salamat-orange text-sm">
+            <div className="text-red-600 text-sm">
               <ErrorMessage name="teamRole" />
             </div>
           </div>
@@ -62,7 +62,7 @@ export const EmployeeModalContents = ({ setOpen }: any) => {
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               placeholder="Team member name"
             />
-            <div className="text-salamat-orange text-sm">
+            <div className="text-red-600 text-sm">
               <ErrorMessage name="memberName" />
             </div>
           </div>
@@ -70,7 +70,7 @@ export const EmployeeModalContents = ({ setOpen }: any) => {
           <div className="mt-5 sm:mt-6">
             <button
               type="submit"
-              className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm"
+              className="inline-flex w-full justify-center rounded-md border border-transparent bg-salamat-blue-dark px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm"
             >
               Create
             </button>

@@ -10,10 +10,12 @@ export const Table = ({
   project,
   activeWeeklyReport,
   setShowItemModal,
+  setActiveWeeklyReport,
 }: {
   project: any;
   activeWeeklyReport: number;
   setShowItemModal: (value: any) => void;
+  setActiveWeeklyReport: (value: any) => void;
 }) => {
   const budgetData = project.categories;
 
@@ -31,6 +33,7 @@ export const Table = ({
       <WeeklyReport
         projectData={project}
         activeWeeklyReport={activeWeeklyReport}
+        setActiveWeeklyReport={setActiveWeeklyReport}
       />
 
       {/* Render projected totals */}

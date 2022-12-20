@@ -5,8 +5,8 @@ import { Data } from 'interfaces/ApiData';
 const mockData: any = {
   name: 'Test Project',
   id: 'apple',
-  projectedTotal: 800,
-  actualTotal: 600,
+  projectedTotal: 8000000,
+  actualTotal: 40000,
   dataOrder: [
     {
       id: 1,
@@ -16,8 +16,8 @@ const mockData: any = {
   categories: {
     1: {
       name: 'Directors',
-      total: 600,
-      projectedCategoryTotal: 800,
+      total: 905,
+      projectedCategoryTotal: 5000000,
       order: [
         { id: 123, type: 'employee' },
         { id: 124, type: 'employee' },
@@ -27,33 +27,33 @@ const mockData: any = {
   },
   subCategories: {
     11: {
-      name: 'Director Group 1',
-      total: 150,
-      projectedSubCategoryTotal: 200,
+      name: "Director's Assistant",
+      total: 200,
+      projectedSubCategoryTotal: 5000,
       order: [{ id: 125, type: 'employee' }],
     },
   },
   employees: {
     123: {
-      name: 'George Lucas',
-      rate: 100,
-      totalDays: 3,
-      actualTotalSalary: 300,
-      projectedTotalSalary: 400,
+      name: 'Jane Doe',
+      rate: 40,
+      totalDays: 10,
+      actualTotalSalary: 400,
+      projectedTotalSalary: 15000,
     },
     124: {
-      name: 'George Foreman',
-      rate: 50,
-      totalDays: 3,
-      actualTotalSalary: 150,
-      projectedTotalSalary: 400,
+      name: 'John Doe',
+      rate: 30.5,
+      totalDays: 10,
+      actualTotalSalary: 305,
+      projectedTotalSalary: 10000,
     },
     125: {
-      name: 'Mike Tyson',
-      rate: 30,
-      totalDays: 5,
-      actualTotalSalary: 150,
-      projectedTotalSalary: 400,
+      name: 'Assistant Doe',
+      rate: 20,
+      totalDays: 10,
+      actualTotalSalary: 200,
+      projectedTotalSalary: 5000,
     },
   },
   weeklyReports: [
@@ -64,21 +64,46 @@ const mockData: any = {
       employeePayBreakdown: {
         123: {
           days: 1,
-          total: 100,
+          total: 40,
         },
         124: {
           days: 1,
-          total: 50,
+          total: 30.5,
         },
         125: {
-          days: 2,
-          total: 60,
+          days: 1,
+          total: 20,
         },
         11: {
-          total: 60,
+          total: 20,
         },
         1: {
-          total: 210,
+          total: 90.5,
+        },
+      },
+    },
+    {
+      name: 'week 2',
+      id: 'week-2-id',
+      weeklyTotal: 180.5,
+      employeePayBreakdown: {
+        123: {
+          days: 3,
+          total: 120,
+        },
+        124: {
+          days: 2,
+          total: 60.5,
+        },
+        125: {
+          days: 1,
+          total: 20,
+        },
+        11: {
+          total: 20,
+        },
+        1: {
+          total: 180.5,
         },
       },
     },
