@@ -46,11 +46,10 @@ const WeeklyRow = ({
     <div className="min-h-[40px] flex justify-between items-center bg-salamat-white rounded-md px-2.5 py-1.5 mt-1">
       <div className="w-[15%] text-salamat-black text-right">
         <input
-          className="appearance-none bg-transparent border-none w-full text-salamat-black mr-3 py-1 px-2 text-left leading-tight focus:outline-none"
+          className="appearance-none bg-transparent border-none w-full text-salamat-black mr-3 py-1 px-2 text-left leading-tight focus:ring-0"
           type="number"
           placeholder="0"
           aria-label="days worked"
-          onFocus={(e) => e.target.select()}
           onChange={(e) => {
             setDaysTerm(e.target.value);
           }}

@@ -16,7 +16,7 @@ const TableItemDropdown = ({ setShowItemModal }: any) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div className="flex items-center">
-        <Menu.Button className="inline-flex w-full justify-center focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+        <Menu.Button className="inline-flex w-full justify-center focus:outline-none">
           <PlusCircleIcon height="22" width="22" />
         </Menu.Button>
       </div>
@@ -157,7 +157,7 @@ const LeftRow = ({
       </div>
       <div className="w-[30%] flex flex-row items-baseline text-salamat-black text-right relative">
         <CurrencyInput
-          className="appearance-none bg-transparent border-none w-full text-salamat-black text-right py-1 px-2 leading-tight focus:outline-none"
+          className="appearance-none bg-transparent border-none w-full text-salamat-black text-right py-1 px-2 leading-tight outline-0 focus:ring-0"
           aria-label="rate for work"
           decimalsLimit={2}
           decimalScale={2}
