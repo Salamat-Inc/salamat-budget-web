@@ -151,21 +151,23 @@ const LeftRow = ({
 
   return (
     <div className="min-h-[40px] flex justify-between items-center bg-salamat-white rounded-md px-2.5 py-1.5 mt-1">
-      <div className="w-[45%] text-salamat-black">{employee.name}</div>
+      <div className="w-[30%] text-salamat-black">{employee.name}</div>
       <div className="w-[10%] text-salamat-black text-right">
         {employee.totalDays}
       </div>
-      <div className="w-[15%] flex flex-row items-baseline text-salamat-black text-right relative">
+      <div className="w-[30%] flex flex-row items-baseline text-salamat-black text-right relative">
         <CurrencyInput
-          className="appearance-none bg-transparent border-none w-full text-salamat-black text-right mr-3 py-1 px-2 leading-tight focus:outline-none"
+          className="appearance-none bg-transparent border-none w-full text-salamat-black text-right py-1 px-2 leading-tight focus:outline-none"
           aria-label="rate for work"
-          placeholder="$100.00"
           decimalsLimit={2}
-          prefix={'$'}
+          decimalScale={2}
           value={rateTerm}
           onValueChange={(value: any) => {
-            setRateTerm(parseFloat(value || '0'));
+            setRateTerm(value);
           }}
+          placeholder="Please enter a number"
+          prefix={'$'}
+          allowNegativeValue={false}
         />
       </div>
       <div className="w-[30%] text-salamat-black text-right">
@@ -243,7 +245,7 @@ export const ActualTotalReport = ({ project, data, setShowItemModal }: any) => {
 
       {/* Header of the table */}
       <div className="min-h-[40px] flex justify-between items-center bg-salamat-blue-dark text-salamat-white rounded-md px-2.5 py-1.5">
-        <div className="w-[45%] flex flex-row">
+        <div className="w-[30%] flex flex-row">
           {/* <button
             onClick={() => {
               setShowItemModal(true);
@@ -255,7 +257,7 @@ export const ActualTotalReport = ({ project, data, setShowItemModal }: any) => {
           <span className="ml-1">Items</span>
         </div>
         <div className="w-[10%] text-right">Days</div>
-        <div className="w-[15%] text-right">Rate</div>
+        <div className="w-[30%] text-right">Rate</div>
         <div className="w-[30%] text-right">Total</div>
       </div>
 
